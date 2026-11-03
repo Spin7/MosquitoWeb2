@@ -763,6 +763,10 @@
         transform-origin: left top
       }
     }
+
+    section.tall.t5 {
+      min-height: 260vh
+    }
   </style>
 </head>
 
@@ -850,7 +854,7 @@
     </div>
   </section>
 
-  <section class="right">
+  <section class="right tall t5">
     <div class="card wide"><span class="tag">Comparativa</span>
       <h2>¿Qué nos diferencia?</h2>
       <div class="tw">
@@ -1152,7 +1156,7 @@
     function landDir() { const th = PHYS.th; if (MS.bin) return vD.set(1, 0, .3).normalize(); if (MS.ex && MS.fv.lengthSq() > 25) return vD.copy(MS.fv).normalize(); return vD.set(Math.cos(th), -Math.sin(th), .3).normalize() }
     // ---- progreso por seccion: la seccion 4 es larga (300vh): 200vh de animacion con el modelo fijo + 100vh de transicion a la siguiente ----
     const SEC = [...document.querySelectorAll('section')], S3 = 3, ZF = new THREE.Vector3(), ZOOM_F = new THREE.Vector3(0, 54 * RS, 6 * RS);
-    function scrollMap() {
+    function scrollMap0() {
       const y = scrollY, vh = innerHeight, n = SEC.length, tops = SEC.map(e => e.offsetTop); let i = n - 1; while (i > 0 && y < tops[i]) i--;
       if (i >= n - 1) return { f: n - 1, q: 1, r: 1, zf: 0, pn: 0 };
       const yy = y - tops[i], span = tops[i + 1] - tops[i];
@@ -1164,7 +1168,39 @@
       }
       const u = (yy - hold) / vh; return { f: S3 + u, q: 1, r: 1, zf: .1 * (1 - sm(u / .6)), pn: u < .5 ? 1 : 0 }
     }                         // luego el zoom se suelta al pasar a la siguiente seccion
-    let fS = 0, qS = 0, zS = 0, rS = 0;
+    // ---- Seccion 5: la trampa se aleja, aparece una caja gris semitransparente, su puerta se cierra y manda datos ----
+    // b = 0..1 dentro de la seccion 5 (260vh: 160vh de animacion con el modelo fijo + 100vh de transicion); bo = cuanto se aleja la camara.
+    function scrollMap() {
+      const m = scrollMap0(), y = scrollY, vh = innerHeight, t4 = SEC[4].offsetTop, t5 = SEC[5].offsetTop, yy = y - t4, hold = Math.max(1, t5 - t4 - vh); m.b = 0; m.bo = 0;
+      if (y >= t4 && y < t5) { if (yy < hold) { m.f = 4; m.b = yy / hold; m.bo = sm(m.b / .3) } else { const u = (yy - hold) / vh; m.f = 4 + u; m.b = 1; m.bo = 1 - sm(u / .8) } }
+      return m
+    }
+    const BX = new THREE.Group(), BW = 190, BH = 240, BD = 175, BZ = 52;                  // mm: la caja cubre la carcasa y el soporte con la camara
+    BX.scale.setScalar(RS); BX.visible = false; pivot.add(BX);
+    const bxMat = new THREE.MeshStandardMaterial({ color: 0x8b949e, transparent: true, opacity: 0, depthWrite: false, roughness: .5, metalness: .1 }), edMat = new THREE.LineBasicMaterial({ color: 0xcfd6dc, transparent: true, opacity: 0 });
+    const bxM = new THREE.Mesh(new THREE.BoxGeometry(BW, BH, BD), bxMat); bxM.position.z = BZ; BX.add(bxM);
+    const bxE = new THREE.LineSegments(new THREE.EdgesGeometry(bxM.geometry), edMat); bxE.position.z = BZ; BX.add(bxE);
+    const dMat = new THREE.MeshStandardMaterial({ color: 0x5f6a75, transparent: true, opacity: 0, roughness: .5 }), door = new THREE.Group();   // puerta en la cara -x, bisagra en el borde frontal
+    const dm = new THREE.Mesh(new THREE.BoxGeometry(110, 150, 4), dMat); dm.position.x = 55; door.add(dm);
+    const hnd = new THREE.Mesh(new THREE.SphereGeometry(5, 10, 8), new THREE.MeshStandardMaterial({ color: 0xa6b037 })); hnd.position.set(95, 0, 6); door.add(hnd);
+    door.position.set(-55, -20, BZ + BD / 2 + 2); door.rotation.y = -1.7; BX.add(door);
+    const ant = new THREE.Mesh(new THREE.CylinderGeometry(3, 3, 40, 8), new THREE.MeshStandardMaterial({ color: 0x5f6a75 })); ant.position.set(0, BH / 2 + 20, BZ); BX.add(ant);
+    const antB = new THREE.Mesh(new THREE.SphereGeometry(8, 12, 8), new THREE.MeshStandardMaterial({ color: 0xa6b037 })); antB.position.set(0, BH / 2 + 42, BZ); BX.add(antB);
+    const rgs = [0, 1, 2].map(() => new THREE.Mesh(new THREE.RingGeometry(.9, 1, 40), new THREE.MeshBasicMaterial({ color: 0x4fd1c5, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false }))),
+      pks = Array.from({ length: 6 }, () => new THREE.Mesh(new THREE.BoxGeometry(.16, .16, .16), new THREE.MeshBasicMaterial({ color: 0xa6b037, transparent: true, opacity: 0 })));
+    rgs.concat(pks).forEach(o => { o.visible = false; scene.add(o) });
+    const bOr = new THREE.Vector3();
+    function stepBox(b) {
+      const a = sm((b - .2) / .2), cl = sm((b - .45) / .2), dt = sm((b - .68) / .1), t = performance.now() / 1000;
+      BX.visible = a > .001; bxMat.opacity = .26 * a; edMat.opacity = .8 * a; dMat.opacity = .55 * a; door.rotation.y = -1.7 * (1 - cl);          // aparece, y la puerta se cierra
+      pivot.updateMatrixWorld(true); bOr.set(0, (BH / 2 + 42) * RS, BZ * RS); pivot.localToWorld(bOr);
+      rgs.forEach((r, k) => { const u = (t * .6 + k / 3) % 1; r.visible = dt > .001; r.position.copy(bOr); r.scale.setScalar(.2 + u * 1.4); r.material.opacity = .75 * (1 - u) * dt });    // ondas de senal
+      pks.forEach((p, k) => {
+        const u = (t * .35 + k / 6) % 1; p.visible = dt > .001; p.position.set(bOr.x + u * 3.2, bOr.y + u * 1.4 + Math.sin(u * Math.PI) * .4, bOr.z); p.rotation.set(t, t * 1.3, 0);
+        p.material.opacity = dt * (u < .1 ? u * 10 : u > .85 ? (1 - u) / .15 : 1)
+      })
+    }                                                          // paquetes de datos que salen
+    let fS = 0, qS = 0, zS = 0, rS = 0, bS = 0, boS = 0;
     // ---- Cuadro "vista de la camara": lo que veria la computadora (primero MOSQUITO, luego MACHO) ----
     const camEl = document.getElementById('cam'), cv = document.getElementById('cv'), cc = cv.getContext('2d'), tgEl = camEl.querySelector('.tg'); let camSt = -1;
     function drawCam(t, pn) {
@@ -1194,7 +1230,7 @@
 
     // ---------- Animación por scroll ----------
     // Un "fotograma clave" por sección: posición lateral, distancia de cámara e inclinación
-    const keys = [{ x: 0, z: 7, tilt: .2, ry: 0 }, { x: 1.5, z: 6, tilt: .1, ry: 1.57 }, { x: -1.5, z: 6, tilt: -.1, ry: 3.14 }, { x: 1.6, z: 6.5, tilt: .2, ry: 6.28 }, { x: -1.6, z: 6, tilt: -.1, ry: 7.85 }, { x: 1.5, z: 5.5, tilt: .15, ry: 9.42 }, { x: -1.5, z: 6, tilt: .1, ry: 10.99 }, { x: 1.6, z: 7.5, tilt: -.1, ry: 12.57 }, { x: 0, z: 4.5, tilt: 0, ry: 14.14 }];
+    const keys = [{ x: 0, z: 7, tilt: .2, ry: 0 }, { x: 1.5, z: 6, tilt: .1, ry: 1.57 }, { x: -1.5, z: 6, tilt: -.1, ry: 3.14 }, { x: 1.6, z: 6.5, tilt: .2, ry: 6.28 }, { x: -1.6, z: 6, tilt: 0, ry: 6.28 }, { x: 1.5, z: 5.5, tilt: .15, ry: 9.42 }, { x: -1.5, z: 6, tilt: .1, ry: 10.99 }, { x: 1.6, z: 7.5, tilt: -.1, ry: 12.57 }, { x: 0, z: 4.5, tilt: 0, ry: 14.14 }];
     const lerp = (a, b, t) => a + (b - a) * t;
     let target = 0, p = 0;
     const progress = () => scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight);
@@ -1207,7 +1243,7 @@
     addEventListener('resize', resize); resize();
 
     function tick() {
-      const M = scrollMap(); fS = lerp(fS, M.f, .08); qS = lerp(qS, M.q, .12); zS = lerp(zS, M.zf, .1); rS = lerp(rS, M.r, .12);   // suaviza el movimiento
+      const M = scrollMap(); fS = lerp(fS, M.f, .08); qS = lerp(qS, M.q, .12); zS = lerp(zS, M.zf, .1); rS = lerp(rS, M.r, .12); bS = lerp(bS, M.b, .1); boS = lerp(boS, M.bo, .1);   // suaviza el movimiento
       const f = fS, i = Math.min(Math.floor(f), keys.length - 2), t = f - i;
       const a = keys[i], b = keys[i + 1];
       const mobile = innerWidth < 700;
@@ -1218,7 +1254,7 @@
         pivot.rotation.x = lerp(pivot.rotation.x, -.35, zS); ZF.copy(ZOOM_F).applyEuler(pivot.rotation); const zc = mobile ? 3.6 : 2.4;
         px = lerp(px, (mobile ? 0 : .34 * .3153 * zc * camera.aspect) - ZF.x, zS); py = lerp(py, (mobile ? .45 : 0) - ZF.y, zS); pz = -ZF.z * zS; cz = lerp(cz, zc, zS)
       }   // zoom al mosquito en la camara
-      pivot.position.set(px, py, pz); camera.position.z = cz;
+      cz += 4 * boS; pivot.position.set(px, py, pz); camera.position.z = cz; stepBox(bS);
       const _n = performance.now(), _dt = Math.min(.05, (_n - (window._pt || _n)) / 1000); window._pt = _n;
       stepPiece(_dt, qS, pivot.scale.x > .5, rS); stepCam(M.pn, rS);
       pivot.scale.setScalar(Math.max(lerp(pivot.scale.x, (window.curS || 0) > 2 ? 1 : 0, .08), .0001));
