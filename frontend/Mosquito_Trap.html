@@ -653,6 +653,21 @@
       opacity: 1
     }
 
+    #ld {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .8s
+    }
+
+    #ld.on {
+      opacity: 1
+    }
+
     @keyframes sw {
       from {
         opacity: 0;
@@ -772,7 +787,7 @@
 
 <body>
   <div id="big"></div><canvas id="mq"></canvas><canvas id="sc"></canvas><canvas id="wb"></canvas><canvas
-    id="c"></canvas>
+    id="ld"></canvas><canvas id="c"></canvas>
   <div id="bar"></div>
   <div id="lab"></div>
   <nav id="nav"></nav>
@@ -1200,7 +1215,7 @@
         p.material.opacity = dt * (u < .1 ? u * 10 : u > .85 ? (1 - u) / .15 : 1)
       })
     }                                                          // paquetes de datos que salen
-    let fS = 0, qS = 0, zS = 0, rS = 0, bS = 0, boS = 0;
+    let fS = 0, qS = 0, zS = 0, rS = 0, bS = 0, boS = 0, k5S = 0, c5 = null;
     // ---- Cuadro "vista de la camara": lo que veria la computadora (primero MOSQUITO, luego MACHO) ----
     const camEl = document.getElementById('cam'), cv = document.getElementById('cv'), cc = cv.getContext('2d'), tgEl = camEl.querySelector('.tg'); let camSt = -1;
     function drawCam(t, pn) {
@@ -1243,7 +1258,7 @@
     addEventListener('resize', resize); resize();
 
     function tick() {
-      const M = scrollMap(); fS = lerp(fS, M.f, .08); qS = lerp(qS, M.q, .12); zS = lerp(zS, M.zf, .1); rS = lerp(rS, M.r, .12); bS = lerp(bS, M.b, .1); boS = lerp(boS, M.bo, .1);   // suaviza el movimiento
+      if (window.curS === 5) { if (c5 === null) c5 = performance.now() } else c5 = null; const M = scrollMap(); fS = lerp(fS, M.f, .08); qS = lerp(qS, M.q, .12); zS = lerp(zS, M.zf, .1); rS = lerp(rS, M.r, .12); bS = lerp(bS, M.b, .1); boS = lerp(boS, M.bo, .1);   // suaviza el movimiento
       const f = fS, i = Math.min(Math.floor(f), keys.length - 2), t = f - i;
       const a = keys[i], b = keys[i + 1];
       const mobile = innerWidth < 700;
@@ -1254,10 +1269,12 @@
         pivot.rotation.x = lerp(pivot.rotation.x, -.35, zS); ZF.copy(ZOOM_F).applyEuler(pivot.rotation); const zc = mobile ? 3.6 : 2.4;
         px = lerp(px, (mobile ? 0 : .34 * .3153 * zc * camera.aspect) - ZF.x, zS); py = lerp(py, (mobile ? .45 : 0) - ZF.y, zS); pz = -ZF.z * zS; cz = lerp(cz, zc, zS)
       }   // zoom al mosquito en la camara
-      cz += 4 * boS; pivot.position.set(px, py, pz); camera.position.z = cz; stepBox(bS);
+      cz += 4 * boS; k5S = lerp(k5S, (window.curS || 0) >= 5 ? 1 : 0, .08);
+      if (k5S > .001) { const hh = Math.tan(.3054) * cz; pivot.rotation.y = lerp(pivot.rotation.y, 12.566, k5S); pivot.rotation.x = lerp(pivot.rotation.x, 0, k5S); px = lerp(px, .25 * hh * camera.aspect, k5S); py = lerp(py, -.35 * hh, k5S) }   // posicion en el paisaje (62% x, 67% y de la pantalla)
+      pivot.position.set(px, py, pz); camera.position.z = cz; stepBox(bS);
       const _n = performance.now(), _dt = Math.min(.05, (_n - (window._pt || _n)) / 1000); window._pt = _n;
-      stepPiece(_dt, qS, pivot.scale.x > .5, rS); stepCam(M.pn, rS);
-      pivot.scale.setScalar(Math.max(lerp(pivot.scale.x, (window.curS || 0) > 2 ? 1 : 0, .08), .0001));
+      stepPiece(_dt, qS, pivot.scale.x > .1, rS); stepCam(M.pn, rS);
+      pivot.scale.setScalar(Math.max(lerp(pivot.scale.x, (window.curS || 0) >= 6 ? 0 : (window.curS || 0) === 5 ? (c5 !== null && performance.now() - c5 > 1500 ? 0 : .2) : (window.curS || 0) > 2 ? 1 : 0, .08), .0001));
       renderer.render(scene, camera);
       requestAnimationFrame(tick);
     }
@@ -1274,7 +1291,7 @@
       [...nav.children].forEach((a, j) => a.classList.toggle('on', j == i));
       lab.innerHTML = '<b>' + String(i + 1).padStart(2, '0') + '</b> / 09 · ' + NAMES[i];
       big.textContent = String(i + 1).padStart(2, '0'); big.classList.remove('sw'); void big.offsetWidth; big.classList.add('sw');
-      secs.forEach((s, j) => s.firstElementChild.classList.toggle('in', j == i)); window.curS = i; mq.classList.toggle('on', i == 0); document.getElementById('sc').classList.toggle('on', i == 1); document.getElementById('wb').classList.toggle('on', i == 2)
+      secs.forEach((s, j) => s.firstElementChild.classList.toggle('in', j == i)); window.curS = i; mq.classList.toggle('on', i == 0); document.getElementById('sc').classList.toggle('on', i == 1); document.getElementById('wb').classList.toggle('on', i == 2); document.getElementById('ld').classList.toggle('on', i == 5)
     }
     const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && go(secs.indexOf(e.target))), { rootMargin: '-45% 0px -45% 0px' });
     secs.forEach(s => io.observe(s)); go(0);
@@ -1439,6 +1456,43 @@
     requestAnimationFrame(mloop);
 
 
+    // ---------- Escena: paisaje con muchas trampas en su caja enviando datos a la nube (seccion 6) ----------
+    const ld = document.getElementById('ld'), lx = ld.getContext('2d');
+    function lrs() { const d = Math.min(devicePixelRatio, 2); ld.width = innerWidth * d; ld.height = innerHeight * d } addEventListener('resize', lrs); lrs();
+    let lSeed = 7; const lr = () => (lSeed = (lSeed * 16807) % 2147483647) / 2147483647;
+    const LU = [];[[.1, 8], [.42, 6], [.8, 4]].forEach(([d, n]) => { for (let k = 0; k < n; k++)LU.push({ d, fx: (k + .5 + (lr() - .5) * .6) / n, ph: lr(), dl: 1.6 + LU.length * .2 }) });   // 18 trampas en 3 filas (de lejos a cerca)
+    const LT = Array.from({ length: 30 }, () => ({ fx: lr(), h: .6 + lr() * .9 }));
+    let lStart = 0, lLast = -9999;
+    function lhill(W, H, b, a, f, p, col) { lx.fillStyle = col; lx.beginPath(); lx.moveTo(0, H); for (let x = 0; x <= W; x += 16)lx.lineTo(x, b + Math.sin(x * f + p) * a); lx.lineTo(W, H); lx.fill() }
+    function lloop(t) {
+      requestAnimationFrame(lloop); if (window.curS === 5) { if (t - lLast > 800) lStart = t; lLast = t } if (t - lLast > 800) return;
+      const W = ld.width, H = ld.height, u = Math.min(W / 1000, H / 700), y0 = H * .55, tt = (t - lStart) / 1000, hx = W * .5, hy = H * .14, ox = W * .625, oy = H * .675;
+      lx.clearRect(0, 0, W, H);
+      let g = lx.createLinearGradient(0, 0, 0, y0); g.addColorStop(0, '#0a2229'); g.addColorStop(1, '#1f5650'); lx.fillStyle = g; lx.fillRect(0, 0, W, H);
+      lx.fillStyle = 'rgba(233,230,200,.85)'; lx.beginPath(); lx.arc(W * .16, H * .14, 24 * u, 0, PI2); lx.fill();                                   // luna
+      lhill(W, H, y0 - 30 * u, 22 * u, .004, 1, '#14423d'); lhill(W, H, y0 - 8 * u, 16 * u, .006, 3, '#195246');
+      g = lx.createLinearGradient(0, y0, 0, H); g.addColorStop(0, '#1d5b45'); g.addColorStop(1, '#0f3a2c'); lx.fillStyle = g; lx.fillRect(0, y0 + 4 * u, W, H);
+      lx.strokeStyle = 'rgba(255,255,255,.06)'; lx.lineWidth = 1.5 * u; for (let k = 1; k < 9; k++) { const y = y0 + (H - y0) * Math.pow(k / 9, 1.7); lx.beginPath(); lx.moveTo(0, y); lx.lineTo(W, y); lx.stroke() }   // surcos
+      lx.fillStyle = '#0f362f'; for (const r of LT) { const x = r.fx * W, b = y0 + 2 * u, h = 26 * u * r.h; lx.beginPath(); lx.moveTo(x - 8 * u * r.h, b); lx.lineTo(x, b - h); lx.lineTo(x + 8 * u * r.h, b); lx.fill() }   // arboles
+      const pu = (t * .0006) % 1; lx.strokeStyle = 'rgba(223,243,245,' + .5 * (1 - pu) + ')'; lx.lineWidth = 2 * u; lx.beginPath(); lx.arc(hx, hy, (34 + pu * 34) * u, 0, PI2); lx.stroke();   // nube (receptor de datos)
+      lx.fillStyle = 'rgba(223,243,245,.92)'; for (const [dx, dy, r] of [[-26, 4, 16], [-6, -6, 22], [18, 0, 18], [34, 6, 12], [-40, 10, 10]]) { lx.beginPath(); lx.arc(hx + dx * u, hy + dy * u, r * u, 0, PI2); lx.fill() } lx.fillRect(hx - 40 * u, hy + 8 * u, 84 * u, 12 * u);
+      for (const q of LU) {
+        const a = Math.max(0, Math.min(1, (tt - q.dl) / .9)); if (a <= 0) continue; const e = a * a * (3 - 2 * a), fx = q.fx * W, fy = y0 + 8 * u + q.d * (H - y0) * .78, x = ox + (fx - ox) * e, y = oy + (fy - oy) * e, S = u * (.45 + q.d * 1.35) * e;
+        lx.save(); lx.translate(x, y); lx.scale(S, S); lx.globalAlpha = e;
+        lx.fillStyle = '#34413f'; lx.fillRect(-2, -20, 4, 20);                                                                             // poste
+        lx.fillStyle = 'rgba(139,148,158,.42)'; lx.fillRect(-28, -90, 56, 70); lx.strokeStyle = '#cfd6dc'; lx.lineWidth = 2; lx.strokeRect(-28, -90, 56, 70);   // caja gris
+        lx.fillStyle = 'rgba(79,209,197,.5)'; lx.fillRect(-17, -84, 34, 52); lx.fillStyle = '#a6b037'; lx.beginPath(); lx.arc(0, -62, 12, 0, PI2); lx.fill(); lx.fillStyle = '#ee943a'; lx.fillRect(-5, -58, 10, 18);   // trampa adentro
+        lx.fillStyle = 'rgba(95,106,117,.65)'; lx.fillRect(4, -80, 22, 48); lx.fillStyle = '#a6b037'; lx.beginPath(); lx.arc(9, -56, 2.2, 0, PI2); lx.fill();   // puerta cerrada
+        lx.strokeStyle = '#9aa3b2'; lx.lineWidth = 2; lx.beginPath(); lx.moveTo(0, -90); lx.lineTo(0, -104); lx.stroke(); lx.fillStyle = '#a6b037'; lx.beginPath(); lx.arc(0, -106, 4, 0, PI2); lx.fill();   // antena
+        for (let j = 0; j < 3; j++) { const v = ((t * .0009) + q.ph + j / 3) % 1; lx.strokeStyle = 'rgba(79,209,197,' + .7 * (1 - v) + ')'; lx.lineWidth = 2.2; lx.beginPath(); lx.arc(0, -106, 5 + v * 32, -2.5, -.64); lx.stroke() }   // ondas
+        lx.restore();
+        const ax = x, ay = y - 106 * S; for (let j = 0; j < 2; j++) {
+          const v = ((t * .00035) + q.ph + j * .5) % 1, px = ax + (hx - ax) * v, py = ay + (hy - ay) * v - Math.sin(v * Math.PI) * H * .06, z = 3.5 * S + 1.5 * u;
+          lx.globalAlpha = e * Math.sqrt(Math.sin(v * Math.PI)); lx.fillStyle = '#c3cf5a'; lx.fillRect(px - z / 2, py - z / 2, z, z)
+        } lx.globalAlpha = 1
+      }
+    }   // paquetes de datos hacia la nube
+    requestAnimationFrame(lloop);
     // ---------- Interactividad ----------
     const fmt = (v, d) => v.toLocaleString('es-PY', { minimumFractionDigits: d, maximumFractionDigits: d });
     function count(el, to, d, suf) { const t0 = performance.now(); (function f(n) { const k = Math.min(1, (n - t0) / 1100); el.textContent = fmt(to * (1 - Math.pow(1 - k, 3)), d) + (suf || ''); k < 1 && requestAnimationFrame(f) })(t0) }
