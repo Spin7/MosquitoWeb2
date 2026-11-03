@@ -661,7 +661,7 @@
     }
 
     section.tall {
-      min-height: 300vh;
+      min-height: 440vh;
       align-items: flex-start
     }
 
@@ -1099,7 +1099,7 @@
       startPt(S0); const e = a * a * (3 - 2 * a), w = 1 - a, amp = 30 * w + 2.5;
       out.lerpVectors(S0, OPEN, e); out.x += amp * Math.sin(a * 17 + t * 1.7); out.y += amp * Math.cos(a * 13 + t * 1.3) + Math.sin(a * Math.PI) * 25; out.z += 20 * w * Math.sin(a * 9)
     }
-    function stepMosquito(dt, q, vis) {
+    function stepMosquito(dt, q, vis, r) {
       const t = performance.now() / 1000; mos.visible = vis && q > .002;
       if (!mos.visible) { MS.fall = MS.land = false; MS.init = false; return }
       if (q < QF - .03 && (MS.fall || MS.land)) { MS.fall = MS.land = false; MS.vy = 0 }      // al subir el scroll, vuelve a volar
@@ -1110,10 +1110,10 @@
         MS.vy -= 2400 * dt; g.copy(MS.pos); g.y += MS.vy * dt; g.x += (RSTP.x - g.x) * Math.min(1, dt * 10); g.z += (RSTP.z - g.z) * Math.min(1, dt * 10);
         if (g.y <= RSTP.y) { g.y = RSTP.y; if (Math.abs(MS.vy) > 120) MS.vy *= -.22; else { MS.vy = 0; MS.land = true } }
       }   // caida repentina con rebote corto
-      else g.copy(RSTP);
+      else mosPhys(g);
       if (MS.fall || !MS.init) { MS.pos.copy(g); MS.init = true } else MS.pos.lerp(g, 1 - Math.exp(-dt * 10));
       const vel = vB.subVectors(MS.pos, MS.prev); MS.prev.copy(MS.pos);
-      const want = MS.land ? DIR_REST : MS.fall ? DIR_FALL : (vel.lengthSq() > 1e-6 ? vel.normalize() : MS.dir);
+      const want = MS.land ? landDir() : MS.fall ? DIR_FALL : (vel.lengthSq() > 1e-6 ? vel.normalize() : MS.dir);
       MS.dir.lerp(want, 1 - Math.exp(-dt * (MS.fall ? 18 : 6))).normalize();
       tmpO.position.copy(MS.pos); tmpO.lookAt(vC.copy(MS.pos).add(MS.dir)); mos.quaternion.slerp(tmpO.quaternion, 1 - Math.exp(-dt * 12));
       mos.position.copy(MS.pos).multiplyScalar(RS); mos.scale.setScalar(U * sm(q / .04));
@@ -1121,19 +1121,50 @@
       mi.rotation.z = Math.sin(t * 5) * .06 * MS.amp;
       for (const w of wg) { const d = w.userData.d; w.rotation.y = -d * MS.fold; w.rotation.x = -d * (.15 + MS.amp * .85 * Math.sin(MS.ph)) }
     }
-    function stepPiece(dt, q, vis) { rotor.rotation.z = 0; pg.position.set(0, (147 - S_END - 110) * RS, 0); piece.rotation.z = 0; piece.scale.setScalar(1); stepMosquito(dt, q, vis) }
+    // ---- Fisica: el rotor gira 180 grados (con el scroll) y la gravedad desliza la pieza y echa al mosquito por el extremo de la ranura ----
+    // s = posicion a lo largo de la ranura (mm desde el centro del rotor, eje local y). Gravedad a lo largo de la ranura: -GR*cos(th).
+    const GR = 1200, PHYS = { sp: -S_END, vp: 0, th: 0 }, EXIT_TH = 2.05;      // EXIT_TH: angulo (rad) en que el extremo de la ranura queda alineado con el conducto derecho
+    MS.s = 17; MS.vs = 0; MS.ex = false; MS.bin = false; MS.fv = new THREE.Vector3(); MS.fp = new THREE.Vector3();
+    function physStep(dt, r) {
+      const th = PHYS.th = sm(r) * Math.PI;
+      if (r < .01 && (MS.ex || MS.s !== 17 || PHYS.sp !== -S_END)) { MS.s = 17; MS.vs = 0; MS.ex = false; MS.bin = false; PHYS.sp = -S_END; PHYS.vp = 0 }
+      const ay = -GR * Math.cos(th), n = Math.max(1, Math.ceil(dt / .004)), h = dt / n, c = Math.cos(th), sn = Math.sin(th);
+      for (let i = 0; i < n; i++) {
+        PHYS.vp += ay * .7 * h; PHYS.sp += PHYS.vp * h;                                                   // pieza naranja: desliza con algo de friccion y rebota en los topes
+        if (Math.abs(PHYS.sp) >= S_END) { const e = Math.sign(PHYS.sp); PHYS.sp = e * S_END; if (PHYS.vp * e > 0) PHYS.vp = Math.abs(PHYS.vp) < 30 ? 0 : -.25 * PHYS.vp }
+        if (!MS.ex) {
+          MS.vs += ay * h; MS.s += MS.vs * h; const fl = PHYS.sp + 46.45;                            // mosquito: apoyado sobre la pieza; cae por gravedad hacia el extremo
+          if (MS.s < fl) { MS.s = fl; if (MS.vs < PHYS.vp) MS.vs = PHYS.vp }
+          if (MS.s > 64) { if (th < EXIT_TH) { MS.s = 64; MS.vs = 0 } else { MS.ex = true; MS.fv.set(MS.vs * sn, MS.vs * c, 0); MS.fp.set(64 * sn, 37 + 64 * c, 6) } }
+        }   // la pared lo retiene hasta que el conducto se alinea
+        else if (!MS.bin) {
+          MS.fv.y -= GR * h; MS.fv.x += ((50 - MS.fp.x) * 10 - MS.fv.x * 4) * h; MS.fp.addScaledVector(MS.fv, h); MS.fp.z += (14 - MS.fp.z) * Math.min(1, h * 6);   // caida libre por el conducto al compartimiento
+          if (MS.fp.y <= -98) { MS.fp.y = -98; if (Math.abs(MS.fv.y) > 150) MS.fv.y *= -.2; else MS.bin = true }
+        }
+      }
+    }
+    function stepPiece(dt, q, vis, r) {
+      physStep(dt, r); const th = PHYS.th, c = Math.cos(th), sn = Math.sin(th);
+      rotor.rotation.z = -th; pg.position.set(PHYS.sp * sn * RS, (37 + PHYS.sp * c) * RS, 0); piece.rotation.z = -th; piece.scale.setScalar(1); stepMosquito(dt, q, vis, r)
+    }
+    function mosPhys(o) { const th = PHYS.th; return MS.ex ? o.copy(MS.fp) : o.set(MS.s * Math.sin(th), 37 + MS.s * Math.cos(th), 6) }
+    const vD = new THREE.Vector3();
+    function landDir() { const th = PHYS.th; if (MS.bin) return vD.set(1, 0, .3).normalize(); if (MS.ex && MS.fv.lengthSq() > 25) return vD.copy(MS.fv).normalize(); return vD.set(Math.cos(th), -Math.sin(th), .3).normalize() }
     // ---- progreso por seccion: la seccion 4 es larga (300vh): 200vh de animacion con el modelo fijo + 100vh de transicion a la siguiente ----
     const SEC = [...document.querySelectorAll('section')], S3 = 3, ZF = new THREE.Vector3(), ZOOM_F = new THREE.Vector3(0, 54 * RS, 6 * RS);
     function scrollMap() {
       const y = scrollY, vh = innerHeight, n = SEC.length, tops = SEC.map(e => e.offsetTop); let i = n - 1; while (i > 0 && y < tops[i]) i--;
-      if (i >= n - 1) return { f: n - 1, q: 1, zf: 0, pn: 0 };
+      if (i >= n - 1) return { f: n - 1, q: 1, r: 1, zf: 0, pn: 0 };
       const yy = y - tops[i], span = tops[i + 1] - tops[i];
-      if (i !== S3) return { f: i + yy / span, q: i < S3 ? 0 : 1, zf: 0, pn: 0 };
+      if (i !== S3) return { f: i + yy / span, q: i < S3 ? 0 : 1, r: i < S3 ? 0 : 1, zf: 0, pn: 0 };
       const hold = Math.max(1, span - vh);
-      if (yy < hold) { const q = yy / hold; return { f: S3, q, zf: sm((q - .7) / .2), pn: Math.max(0, Math.min(1, (q - .6) / .4)) } }                 // zoom hacia la camara al final de la animacion
-      const u = (yy - hold) / vh; return { f: S3 + u, q: 1, zf: 1 - sm(u / .6), pn: u < .5 ? 1 : 0 }
+      if (yy < hold) {
+        const q = Math.min(1, yy / (2 * vh)), r = Math.max(0, Math.min(1, (yy - 2 * vh) / (1.2 * vh)));        // q: mosquito y camara (0-2vh); r: giro del rotor y deposito (2-3.2vh)
+        return { f: S3, q, r, zf: sm((q - .7) / .2) * (1 - .9 * sm(r)), pn: Math.max(0, Math.min(1, (q - .6) / .4)) }
+      }
+      const u = (yy - hold) / vh; return { f: S3 + u, q: 1, r: 1, zf: .1 * (1 - sm(u / .6)), pn: u < .5 ? 1 : 0 }
     }                         // luego el zoom se suelta al pasar a la siguiente seccion
-    let fS = 0, qS = 0, zS = 0;
+    let fS = 0, qS = 0, zS = 0, rS = 0;
     // ---- Cuadro "vista de la camara": lo que veria la computadora (primero MOSQUITO, luego MACHO) ----
     const camEl = document.getElementById('cam'), cv = document.getElementById('cv'), cc = cv.getContext('2d'), tgEl = camEl.querySelector('.tg'); let camSt = -1;
     function drawCam(t, pn) {
@@ -1146,10 +1177,10 @@
         for (const [x, y, dx, dy] of [[bx, by, 1, 1], [bx + bw, by, -1, 1], [bx, by + bh, 1, -1], [bx + bw, by + bh, -1, -1]]) { c.beginPath(); c.moveTo(x + dx * L, y); c.lineTo(x, y); c.lineTo(x, y + dy * L); c.stroke() }
       }
     }
-    function stepCam(pn) {
+    function stepCam(pn, r) {
       const on = pn > 0; if (camEl.classList.contains('on') !== on) camEl.classList.toggle('on', on); if (!on) { camSt = -1; return }
-      drawCam(performance.now(), pn); const st = pn < .12 ? 0 : pn < .5 ? 1 : 2;
-      if (st !== camSt) { camSt = st; tgEl.className = 'tg' + (st == 2 ? ' m' : ''); tgEl.textContent = st == 0 ? 'ANALIZANDO…' : st == 1 ? 'MOSQUITO · 98 %' : 'MACHO · 94 %' }
+      drawCam(performance.now(), pn); const st = r > .05 ? 3 : pn < .12 ? 0 : pn < .5 ? 1 : 2;
+      if (st !== camSt) { camSt = st; tgEl.className = 'tg' + (st > 1 ? ' m' : ''); tgEl.textContent = ['ANALIZANDO…', 'MOSQUITO · 98 %', 'MACHO · 94 %', 'MACHO → COMPARTIMIENTO'][st] }
     }
 
 
@@ -1176,7 +1207,7 @@
     addEventListener('resize', resize); resize();
 
     function tick() {
-      const M = scrollMap(); fS = lerp(fS, M.f, .08); qS = lerp(qS, M.q, .12); zS = lerp(zS, M.zf, .1);   // suaviza el movimiento
+      const M = scrollMap(); fS = lerp(fS, M.f, .08); qS = lerp(qS, M.q, .12); zS = lerp(zS, M.zf, .1); rS = lerp(rS, M.r, .12);   // suaviza el movimiento
       const f = fS, i = Math.min(Math.floor(f), keys.length - 2), t = f - i;
       const a = keys[i], b = keys[i + 1];
       const mobile = innerWidth < 700;
@@ -1189,7 +1220,7 @@
       }   // zoom al mosquito en la camara
       pivot.position.set(px, py, pz); camera.position.z = cz;
       const _n = performance.now(), _dt = Math.min(.05, (_n - (window._pt || _n)) / 1000); window._pt = _n;
-      stepPiece(_dt, qS, pivot.scale.x > .5); stepCam(M.pn);
+      stepPiece(_dt, qS, pivot.scale.x > .5, rS); stepCam(M.pn, rS);
       pivot.scale.setScalar(Math.max(lerp(pivot.scale.x, (window.curS || 0) > 2 ? 1 : 0, .08), .0001));
       renderer.render(scene, camera);
       requestAnimationFrame(tick);
