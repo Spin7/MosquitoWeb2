@@ -875,56 +875,61 @@
     /* ---- Tarjetas de tópicos (sección El Problema) ---- */
     .ntopics-row {
       display: flex;
-      gap: 1.1vw;
-      max-width: min(46vw, 540px);
+      flex-direction: column;
+      gap: 0.7vh;
+      max-width: min(44vw, 480px);
       width: 100%
     }
 
     @media(max-width:700px) {
-      .ntopics-row { flex-direction: column; max-width: 100% }
+      .ntopics-row { max-width: 100% }
     }
 
     .ntopic {
-      flex: 1;
-      min-width: 0;
       display: flex;
-      flex-direction: column;
-      gap: 7px;
-      padding: 16px 15px 14px;
-      border-radius: 14px;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
       background: rgba(255,255,255,.07);
       border: 1px solid rgba(166,176,55,.22);
       text-decoration: none;
       color: var(--fg);
-      backdrop-filter: blur(6px);
-      transition: background .3s, border-color .3s, transform .22s
+      backdrop-filter: blur(5px);
+      transition: background .3s, border-color .3s, transform .2s
     }
 
     .ntopic:hover {
       background: rgba(166,176,55,.16);
       border-color: var(--lime);
-      transform: translateY(-4px)
+      transform: translateX(4px)
     }
 
-    .ntopic-icon { font-size: 2rem; line-height: 1 }
+    .ntopic-icon { font-size: 1.5rem; line-height: 1; flex-shrink: 0 }
+
+    .ntopic-body { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0 }
 
     .ntopic-label {
-      font: 700 .58rem system-ui;
-      letter-spacing: .16em;
+      font: 700 .55rem system-ui;
+      letter-spacing: .15em;
       text-transform: uppercase;
       color: var(--lime)
     }
 
     .ntopic-title {
-      font: 900 1rem/1.18 'Archivo Black', Impact, system-ui;
-      color: var(--fg)
+      font: 800 .95rem/1.15 'Archivo Black', Impact, system-ui;
+      color: var(--fg);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
     }
 
     .ntopic-src {
       font: 600 .68rem system-ui;
       color: var(--accent);
-      margin-top: auto;
-      padding-top: 10px
+      flex-shrink: 0;
+      white-space: nowrap
     }
   </style>
 </head>
@@ -945,7 +950,7 @@
     </div>
   </section>
 
-  <section style="flex-direction:column; align-items:flex-start; justify-content:center; gap:2vh;">
+  <section style="flex-direction:column; align-items:flex-start; justify-content:flex-start; padding-top:5vh; gap:1.6vh;">
     <div class="card"><span class="tag">El problema</span>
       <h2>El problema no es solo el mosquito.</h2>
       <div class="stats">
@@ -958,21 +963,27 @@
     <div class="ntopics-row">
       <a class="ntopic" href="https://www.paho.org/es/temas/dengue" target="_blank" rel="noopener">
         <div class="ntopic-icon">🦟</div>
-        <div class="ntopic-label">Epidemia</div>
-        <div class="ntopic-title">Crisis global de Dengue</div>
-        <div class="ntopic-src">paho.org →</div>
+        <div class="ntopic-body">
+          <span class="ntopic-label">Epidemia</span>
+          <span class="ntopic-title">Crisis global de Dengue</span>
+        </div>
+        <span class="ntopic-src">paho.org →</span>
       </a>
       <a class="ntopic" href="https://iris.paho.org/handle/10665.2/51993" target="_blank" rel="noopener">
         <div class="ntopic-icon">🪤</div>
-        <div class="ntopic-label">Vigilancia</div>
-        <div class="ntopic-title">Ovitrampas como solución de monitoreo</div>
-        <div class="ntopic-src">iris.paho.org →</div>
+        <div class="ntopic-body">
+          <span class="ntopic-label">Vigilancia</span>
+          <span class="ntopic-title">Ovitrampas como solución de monitoreo</span>
+        </div>
+        <span class="ntopic-src">iris.paho.org →</span>
       </a>
       <a class="ntopic" href="https://www.mspbs.gov.py/portal/26019/el-gobierno-nacional-reafirma-su-compromiso-con-la-salud-publica-con-una-inversion-historica.html" target="_blank" rel="noopener">
         <div class="ntopic-icon">💸</div>
-        <div class="ntopic-label">Presupuesto</div>
-        <div class="ntopic-title">Millones invertidos en control vectorial</div>
-        <div class="ntopic-src">mspbs.gov.py →</div>
+        <div class="ntopic-body">
+          <span class="ntopic-label">Presupuesto</span>
+          <span class="ntopic-title">Millones invertidos en control vectorial</span>
+        </div>
+        <span class="ntopic-src">mspbs.gov.py →</span>
       </a>
     </div>
   </section>
