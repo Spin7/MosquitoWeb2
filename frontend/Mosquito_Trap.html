@@ -1469,8 +1469,8 @@
       sx.clearRect(0, 0, W, H);
       for (const b of SB) if (b.x == null) { b.x = lo + (hi - lo) * b.ix; b.y = y0 - 200 * u + 170 * u * b.iy }
       for (const f of SF) {
-        if (f.x == null) f.x = f.fx * W; let tg = SB[0], bd = 1e9; for (const b of SB) { const d = Math.hypot(b.x - f.x, b.y - (y0 - 20 * u - 50 * uf * 0.62)); if (d < bd) { bd = d; tg = b } }
-        const dx = tg.x - f.x, mv = Math.abs(dx) > 70 * uf; f.dir = dx >= 0 ? 1 : -1; if (mv) f.x += Math.sign(dx) * .9 * u; f.x = Math.max(lo, Math.min(hi, f.x)); f.ph += mv ? .2 : .05; f.ang = Math.atan2(tg.y - (y0 - 20 * u - 50 * uf * 0.62), tg.x - f.x)
+        if (f.x == null) f.x = f.fx * W; let tg = SB[0], bd = 1e9; for (const b of SB) { const d = Math.hypot(b.x - f.x, b.y - (y0 + 70 * u - 50 * uf * 0.62)); if (d < bd) { bd = d; tg = b } }
+        const dx = tg.x - f.x, mv = Math.abs(dx) > 70 * uf; f.dir = dx >= 0 ? 1 : -1; if (mv) f.x += Math.sign(dx) * .9 * u; f.x = Math.max(lo, Math.min(hi, f.x)); f.ph += mv ? .2 : .05; f.ang = Math.atan2(tg.y - (y0 + 70 * u - 50 * uf * 0.62), tg.x - f.x)
       }
       for (const p of SP) { p.l++; p.x += p.vx; p.y += p.vy; p.vx *= .97; p.vy *= .97 }
       while (SP.length && SP[0].l > 75) SP.shift();
@@ -1484,7 +1484,7 @@
       room(bx + 10 * u, by + 10 * u, 140 * u, 105 * u, 0, t, false, u); room(bx + 190 * u, by + 10 * u, 140 * u, 105 * u, 1.7, t, false, u); room(bx + 10 * u, by + 135 * u, 140 * u, 105 * u, 3.1, t, false, u); room(bx + 190 * u, by + 135 * u, 140 * u, 105 * u, 4.6, t, false, u);
       for (const a of SA) { if (a.x == null) a.x = a.d > 0 ? -120 * u : W + 120 * u; a.x += a.d * a.v * u; if (a.d > 0 && a.x > W + 120 * u) a.x = -120 * u; if (a.d < 0 && a.x < -120 * u) a.x = W + 120 * u; amb(a, t, y0 + a.l * u, u) }
       for (const p of SP) { sx.globalAlpha = .4 * (1 - p.l / 75); sx.fillStyle = '#b9c6c2'; sx.beginPath(); sx.arc(p.x, p.y, (6 + p.l * .55) * u, 0, PI2); sx.fill() } sx.globalAlpha = 1;
-      const nz = []; for (const f of SF) { const n = fum(f, y0 - 20 * u, uf * 0.62); nz.push(n); if (++f.c % 3 == 0) { const v = 3.4 * u; SP.push({ x: n[0], y: n[1], l: 0, vx: Math.cos(f.ang) * v + (Math.random() - .5) * u, vy: Math.sin(f.ang) * v + (Math.random() - .5) * u }) } }
+      const nz = []; for (const f of SF) { const n = fum(f, y0 + 70 * u, uf * 0.62); nz.push(n); if (++f.c % 3 == 0) { const v = 3.4 * u; SP.push({ x: n[0], y: n[1], l: 0, vx: Math.cos(f.ang) * v + (Math.random() - .5) * u, vy: Math.sin(f.ang) * v + (Math.random() - .5) * u }) } }
       for (const b of SB) {
         b.a += (Math.random() - .5) * .35; let sp = 2.2 * u;
         for (const n of nz) { const dx = b.x - n[0], dy = b.y - n[1]; if (Math.hypot(dx, dy) < 150 * u) { let df = Math.atan2(dy, dx) - b.a; df = Math.atan2(Math.sin(df), Math.cos(df)); b.a += df * .3; sp = 4.6 * u } }
