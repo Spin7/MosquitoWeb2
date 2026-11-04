@@ -415,36 +415,40 @@
 
     .team {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(4, 1fr);
       gap: 10px;
       margin: 1em 0
     }
 
+    @media(max-width:600px) {
+      .team {
+        grid-template-columns: repeat(3, 1fr)
+      }
+    }
+
     @media(max-width:380px) {
       .team {
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr 1fr
       }
     }
 
     .mem {
-      padding: 12px;
+      padding: 10px 6px;
       border-radius: 12px;
       background: rgba(127, 127, 127, .1);
       text-align: center;
-      font-size: .9rem
+      font-size: .82rem
     }
 
-    .mem em {
-      display: grid;
-      place-items: center;
-      width: 48px;
-      height: 48px;
-      margin: 0 auto 6px;
+    .mem img {
+      display: block;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
-      background: var(--accent);
-      color: var(--bg);
-      font: 700 1rem system-ui;
-      font-style: normal
+      object-fit: cover;
+      object-position: top center;
+      margin: 0 auto 7px;
+      border: 2px solid var(--accent)
     }
 
     .mem small {
@@ -1187,10 +1191,13 @@
     <div class="card wide"><span class="tag">Equipo e inversión</span>
       <h2>El equipo que puede llevarlo al mercado</h2>
       <div class="team">
-        <div class="mem"><em>LG</em>Leila Gauna<small>Estudiante Ing. Mecatrónica</small></div>
-        <div class="mem"><em>CA</em>Cristian Acero<small>Estudiante Ing. Mecatrónica</small></div>
-        <div class="mem"><em>LP</em>Lucas Pin<small>Ingeniero Mecatrónico</small></div>
-        <div class="mem"><em>MM</em>Matteo Martínez<small>Ingeniero Mecatrónico</small></div>
+        <div class="mem"><img src="static/members/Leila.jpg" alt="Leila Gauna">Leila Gauna<small>Ing. Mecatrónica</small></div>
+        <div class="mem"><img src="static/members/Acero.jpg" alt="Cristian Acero">Cristian Acero<small>Ing. Mecatrónica</small></div>
+        <div class="mem"><img src="static/members/Lucas.jpg" alt="Lucas Pin">Lucas Pin<small>Ing. Mecatrónico</small></div>
+        <div class="mem"><img src="static/members/Matteo.jpg" alt="Matteo Martínez">Matteo Martínez<small>Ing. Mecatrónico</small></div>
+        <div class="mem"><img src="static/members/Christian.jpg" alt="Christian">Christian<small>Asesor</small></div>
+        <div class="mem"><img src="static/members/Diego.jpg" alt="Diego">Diego<small>Asesor</small></div>
+        <div class="mem"><img src="static/members/Maqueda.jpg" alt="Maqueda">Maqueda<small>Asesor</small></div>
       </div>
       <h2 style="font-size:1.2rem">¿Qué necesitamos?</h2>
       <div class="don"><svg viewBox="0 0 42 42">
