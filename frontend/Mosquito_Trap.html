@@ -873,6 +873,26 @@
     }
 
     /* ---- Tarjetas de tópicos (sección El Problema) ---- */
+    .card-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5vh;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s, transform .7s
+    }
+
+    .card-group.in {
+      opacity: 1;
+      transform: none
+    }
+
+    /* El .card dentro del grupo ya no necesita su propia animación */
+    .card-group > .card {
+      opacity: 1;
+      transform: none;
+      transition: none
+    }
     .ntopics-row {
       display: flex;
       flex-direction: column;
@@ -956,41 +976,43 @@
     </div>
   </section>
 
-  <section style="flex-direction:column; align-items:flex-start; justify-content:flex-start; padding-top:5vh; gap:1.6vh;">
-    <div class="card"><span class="tag">El problema</span>
-      <h2>El problema no es solo el mosquito.</h2>
-      <div class="stats">
-        <div class="stat"><b data-n="20000">20.000</b><span>muertes por año</span></div>
-        <div class="stat alt"><b>+ x USD</b><span>por año en salud en Paraguay (millones)</span></div>
+  <section style="flex-direction:column; align-items:flex-start; justify-content:flex-start; padding-top:5vh;">
+    <div class="card-group">
+      <div class="card"><span class="tag">El problema</span>
+        <h2>El problema no es solo el mosquito.</h2>
+        <div class="stats">
+          <div class="stat"><b data-n="20000">20.000</b><span>muertes por año</span></div>
+          <div class="stat alt"><b>+ x USD</b><span>por año en salud en Paraguay (millones)</span></div>
+        </div>
+        <p>80 millones de infecciones por dengue a nivel mundial (OMS).</p>
       </div>
-      <p>80 millones de infecciones por dengue a nivel mundial (OMS).</p>
-    </div>
 
-    <div class="ntopics-row">
-      <a class="ntopic" href="https://www.paho.org/es/temas/dengue" target="_blank" rel="noopener">
-        <div class="ntopic-icon">🦟</div>
-        <div class="ntopic-body">
-          <span class="ntopic-label">Epidemia</span>
-          <span class="ntopic-title">Crisis global de Dengue</span>
-        </div>
-        <span class="ntopic-src">paho.org →</span>
-      </a>
-      <a class="ntopic" href="https://iris.paho.org/handle/10665.2/51993" target="_blank" rel="noopener">
-        <div class="ntopic-icon">🪤</div>
-        <div class="ntopic-body">
-          <span class="ntopic-label">Vigilancia</span>
-          <span class="ntopic-title">Ovitrampas como solución de monitoreo</span>
-        </div>
-        <span class="ntopic-src">iris.paho.org →</span>
-      </a>
-      <a class="ntopic" href="https://www.mspbs.gov.py/portal/26019/el-gobierno-nacional-reafirma-su-compromiso-con-la-salud-publica-con-una-inversion-historica.html" target="_blank" rel="noopener">
-        <div class="ntopic-icon">💸</div>
-        <div class="ntopic-body">
-          <span class="ntopic-label">Presupuesto</span>
-          <span class="ntopic-title">Millones invertidos en control vectorial</span>
-        </div>
-        <span class="ntopic-src">mspbs.gov.py →</span>
-      </a>
+      <div class="ntopics-row">
+        <a class="ntopic" href="https://www.paho.org/es/temas/dengue" target="_blank" rel="noopener">
+          <div class="ntopic-icon">🦟</div>
+          <div class="ntopic-body">
+            <span class="ntopic-label">Epidemia</span>
+            <span class="ntopic-title">Crisis global de Dengue</span>
+          </div>
+          <span class="ntopic-src">paho.org →</span>
+        </a>
+        <a class="ntopic" href="https://iris.paho.org/handle/10665.2/51993" target="_blank" rel="noopener">
+          <div class="ntopic-icon">🪤</div>
+          <div class="ntopic-body">
+            <span class="ntopic-label">Vigilancia</span>
+            <span class="ntopic-title">Ovitrampas como solución de monitoreo</span>
+          </div>
+          <span class="ntopic-src">iris.paho.org →</span>
+        </a>
+        <a class="ntopic" href="https://www.mspbs.gov.py/portal/26019/el-gobierno-nacional-reafirma-su-compromiso-con-la-salud-publica-con-una-inversion-historica.html" target="_blank" rel="noopener">
+          <div class="ntopic-icon">💸</div>
+          <div class="ntopic-body">
+            <span class="ntopic-label">Presupuesto</span>
+            <span class="ntopic-title">Millones invertidos en control vectorial</span>
+          </div>
+          <span class="ntopic-src">mspbs.gov.py →</span>
+        </a>
+      </div>
     </div>
   </section>
 
