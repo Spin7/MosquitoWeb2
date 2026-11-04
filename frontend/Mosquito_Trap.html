@@ -1349,7 +1349,7 @@
       pivot.rotation.x = lerp(a.tilt, b.tilt, t);
       if (zS > .001) {
         pivot.rotation.x = lerp(pivot.rotation.x, -.35, zS); ZF.copy(ZOOM_F).applyEuler(pivot.rotation); const zc = mobile ? 3.6 : 2.4;
-        px = lerp(px, (mobile ? 0 : .34 * .3153 * zc * camera.aspect) - ZF.x, zS); py = lerp(py, (mobile ? .45 : 0) - ZF.y, zS); pz = -ZF.z * zS; cz = lerp(cz, zc, zS)
+        px = lerp(px, (mobile ? 0 : .34 * .3153 * zc * camera.aspect) - ZF.x, zS); py = lerp(py, (mobile ? .8 : 0) - ZF.y, zS); pz = -ZF.z * zS; cz = lerp(cz, zc, zS)
       }   // zoom al mosquito en la camara
       cz += 4 * boS; k5S = sm(E6 / .6);
       if (k5S > .001) { cz = lerp(cz, 5.5, k5S) + 3 * k5S; const hh = Math.tan(.3054) * cz; pivot.rotation.y = lerp(pivot.rotation.y, 12.566, k5S); pivot.rotation.x = lerp(pivot.rotation.x, 0, k5S); px = lerp(px, .25 * hh * camera.aspect, k5S); py = lerp(py, -.35 * hh, k5S) }   // posicion en el paisaje (62% x, 67% y de la pantalla)
@@ -1363,6 +1363,11 @@
     }
     tick();
 
+    // ---------- Movil: las tarjetas de las secciones largas quedan pegadas abajo para no tapar la trampa ----------
+    const tallCards = [...document.querySelectorAll('section.tall .card')];
+    function placeCards() { const m = innerWidth < 700; tallCards.forEach(c => { c.style.top = m ? Math.max(60, innerHeight - c.offsetHeight - 14) + 'px' : '' }) }
+    placeCards(); addEventListener('resize', placeCards);
+    if (window.ResizeObserver) { const ro = new ResizeObserver(placeCards); tallCards.forEach(c => ro.observe(c)) }
     // ---------- Aparición de los textos ----------
     const NAMES = ['Portada', 'El problema', 'El cuello de botella', 'La solución', '¿Qué nos diferencia?', 'La evidencia', 'Impacto', 'Equipo e inversión', 'Próximos productos'];
     const secs = [...document.querySelectorAll('section')], root = document.documentElement;
