@@ -876,8 +876,8 @@
     .ntopics-row {
       display: flex;
       flex-direction: column;
-      gap: 0.7vh;
-      max-width: min(44vw, 480px);
+      gap: 0.5vh;
+      max-width: min(42vw, 440px);
       width: 100%
     }
 
@@ -887,38 +887,43 @@
 
     .ntopic {
       display: flex;
-      flex-direction: row;
       align-items: center;
-      gap: 12px;
-      padding: 10px 14px;
-      border-radius: 10px;
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(166,176,55,.22);
+      gap: 14px;
+      padding: 11px 16px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.04);
+      border: none;
+      border-left: 3px solid var(--lime);
       text-decoration: none;
       color: var(--fg);
-      backdrop-filter: blur(5px);
-      transition: background .3s, border-color .3s, transform .2s
+      transition: background .25s, transform .22s, border-left-color .25s
     }
 
     .ntopic:hover {
-      background: rgba(166,176,55,.16);
-      border-color: var(--lime);
-      transform: translateX(4px)
+      background: rgba(166,176,55,.13);
+      transform: translateX(6px);
+      border-left-color: var(--accent)
     }
 
-    .ntopic-icon { font-size: 1.5rem; line-height: 1; flex-shrink: 0 }
+    .ntopic-icon { font-size: 1.7rem; line-height: 1; flex-shrink: 0 }
 
-    .ntopic-body { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0 }
+    .ntopic-body {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      flex: 1;
+      min-width: 0
+    }
 
     .ntopic-label {
-      font: 700 .55rem system-ui;
-      letter-spacing: .15em;
+      font: 700 .52rem system-ui;
+      letter-spacing: .2em;
       text-transform: uppercase;
       color: var(--lime)
     }
 
     .ntopic-title {
-      font: 800 .95rem/1.15 'Archivo Black', Impact, system-ui;
+      font: 900 1.2rem/1.15 'Archivo Black', Impact, system-ui;
       color: var(--fg);
       white-space: nowrap;
       overflow: hidden;
@@ -926,10 +931,11 @@
     }
 
     .ntopic-src {
-      font: 600 .68rem system-ui;
+      font: 600 .65rem system-ui;
       color: var(--accent);
       flex-shrink: 0;
-      white-space: nowrap
+      white-space: nowrap;
+      opacity: .8
     }
   </style>
 </head>
