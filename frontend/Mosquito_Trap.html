@@ -90,6 +90,7 @@
       section {
         padding: 80px 5vw 40px
       }
+
       section.right {
         justify-content: flex-start
       }
@@ -454,10 +455,12 @@
         flex-direction: column;
         align-items: flex-start
       }
+
       .don svg {
         width: 140px;
         align-self: center
       }
+
       .leg {
         min-width: unset;
         width: 100%
@@ -597,7 +600,9 @@
     }
 
     @media(max-width:700px) {
-      #nav { display: none }
+      #nav {
+        display: none
+      }
     }
 
     #nav a {
@@ -663,7 +668,9 @@
     }
 
     @media(max-width:700px) {
-      #big { display: none }
+      #big {
+        display: none
+      }
     }
 
     #big.sw {
@@ -841,9 +848,11 @@
         border-radius: 10px;
         transform-origin: left top
       }
+
       #cam .ch {
         font-size: .5rem
       }
+
       #cam .tg {
         font-size: .65rem;
         padding: 3px 8px;
@@ -1554,8 +1563,6 @@
       g = lx.createLinearGradient(0, y0, 0, H); g.addColorStop(0, '#1d5b45'); g.addColorStop(1, '#0f3a2c'); lx.fillStyle = g; lx.fillRect(0, y0 + 4 * u, W, H);
       lx.strokeStyle = 'rgba(255,255,255,.06)'; lx.lineWidth = 1.5 * u; for (let k = 1; k < 9; k++) { const y = y0 + (H - y0) * Math.pow(k / 9, 1.7); lx.beginPath(); lx.moveTo(0, y); lx.lineTo(W, y); lx.stroke() }   // surcos
       lx.fillStyle = '#0f362f'; for (const r of LT) { const x = r.fx * W, b = y0 + 2 * u, h = 26 * u * r.h; lx.beginPath(); lx.moveTo(x - 8 * u * r.h, b); lx.lineTo(x, b - h); lx.lineTo(x + 8 * u * r.h, b); lx.fill() }   // arboles
-      const pu = (t * .0006) % 1; lx.strokeStyle = 'rgba(223,243,245,' + .5 * (1 - pu) + ')'; lx.lineWidth = 2 * u; lx.beginPath(); lx.arc(hx, hy, (34 + pu * 34) * u, 0, PI2); lx.stroke();   // nube (receptor de datos)
-      lx.fillStyle = 'rgba(223,243,245,.92)'; for (const [dx, dy, r] of [[-26, 4, 16], [-6, -6, 22], [18, 0, 18], [34, 6, 12], [-40, 10, 10]]) { lx.beginPath(); lx.arc(hx + dx * u, hy + dy * u, r * u, 0, PI2); lx.fill() } lx.fillRect(hx - 40 * u, hy + 8 * u, 84 * u, 12 * u);
       for (const q of LU) {
         const a = Math.max(0, Math.min(1, (tt - q.dl) / .9)); if (a <= 0) continue; const e = a * a * (3 - 2 * a), fx = q.fx * W, fy = y0 + 8 * u + q.d * (H - y0) * .78, x = ox + (fx - ox) * e, y = oy + (fy - oy) * e, S = u * (.45 + q.d * 1.35) * e;
         lx.save(); lx.translate(x, y); lx.scale(S, S); lx.globalAlpha = e;
