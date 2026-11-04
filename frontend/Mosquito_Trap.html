@@ -1504,7 +1504,7 @@
       const M = scrollMap();
       // --- Avance automático de b (puerta/caja) al entrar en sección 5 ---
       { const now = performance.now(), dt6 = Math.min(.05, (now - (_autoBt || now)) / 1000); _autoBt = now;
-        if ((window.curS || 0) === 4) { autoB = Math.min(1, autoB + dt6 / 2.8); } else if ((window.curS || 0) < 4) { autoB = 0; }
+        if ((window.curS || 0) === 4) { autoB = Math.min(1, autoB + dt6 / 0.93); } else if ((window.curS || 0) < 4) { autoB = 0; }
         M.b = Math.max(M.b, autoB); M.bo = Math.max(M.bo, sm(autoB / .3)); }
       fS = lerp(fS, M.f, .08); qS = lerp(qS, M.q, .12); zS = lerp(zS, M.zf, .1); rS = lerp(rS, M.r, .12); bS = lerp(bS, M.b, .1); boS = lerp(boS, M.bo, .1);   // suaviza el movimiento
       const f = fS, i = Math.min(Math.floor(f), keys.length - 2), t = f - i;
