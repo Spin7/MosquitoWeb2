@@ -871,6 +871,61 @@
     #hero-bg.hidden {
       opacity: 0
     }
+
+    /* ---- Tarjetas de tópicos (sección El Problema) ---- */
+    .ntopics-row {
+      display: flex;
+      gap: 1.1vw;
+      max-width: min(46vw, 540px);
+      width: 100%
+    }
+
+    @media(max-width:700px) {
+      .ntopics-row { flex-direction: column; max-width: 100% }
+    }
+
+    .ntopic {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding: 16px 15px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(166,176,55,.22);
+      text-decoration: none;
+      color: var(--fg);
+      backdrop-filter: blur(6px);
+      transition: background .3s, border-color .3s, transform .22s
+    }
+
+    .ntopic:hover {
+      background: rgba(166,176,55,.16);
+      border-color: var(--lime);
+      transform: translateY(-4px)
+    }
+
+    .ntopic-icon { font-size: 2rem; line-height: 1 }
+
+    .ntopic-label {
+      font: 700 .58rem system-ui;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--lime)
+    }
+
+    .ntopic-title {
+      font: 900 1rem/1.18 'Archivo Black', Impact, system-ui;
+      color: var(--fg)
+    }
+
+    .ntopic-src {
+      font: 600 .68rem system-ui;
+      color: var(--accent);
+      margin-top: auto;
+      padding-top: 10px
+    }
   </style>
 </head>
 
@@ -890,7 +945,7 @@
     </div>
   </section>
 
-  <section>
+  <section style="flex-direction:column; align-items:flex-start; justify-content:center; gap:2vh;">
     <div class="card"><span class="tag">El problema</span>
       <h2>El problema no es solo el mosquito.</h2>
       <div class="stats">
@@ -898,6 +953,27 @@
         <div class="stat alt"><b>+ x USD</b><span>por año en salud en Paraguay (millones)</span></div>
       </div>
       <p>80 millones de infecciones por dengue a nivel mundial (OMS).</p>
+    </div>
+
+    <div class="ntopics-row">
+      <a class="ntopic" href="https://www.paho.org/es/temas/dengue" target="_blank" rel="noopener">
+        <div class="ntopic-icon">🦟</div>
+        <div class="ntopic-label">Epidemia</div>
+        <div class="ntopic-title">Crisis global de Dengue</div>
+        <div class="ntopic-src">paho.org →</div>
+      </a>
+      <a class="ntopic" href="https://iris.paho.org/handle/10665.2/51993" target="_blank" rel="noopener">
+        <div class="ntopic-icon">🪤</div>
+        <div class="ntopic-label">Vigilancia</div>
+        <div class="ntopic-title">Ovitrampas como solución de monitoreo</div>
+        <div class="ntopic-src">iris.paho.org →</div>
+      </a>
+      <a class="ntopic" href="https://www.mspbs.gov.py/portal/26019/el-gobierno-nacional-reafirma-su-compromiso-con-la-salud-publica-con-una-inversion-historica.html" target="_blank" rel="noopener">
+        <div class="ntopic-icon">💸</div>
+        <div class="ntopic-label">Presupuesto</div>
+        <div class="ntopic-title">Millones invertidos en control vectorial</div>
+        <div class="ntopic-src">mspbs.gov.py →</div>
+      </a>
     </div>
   </section>
 
