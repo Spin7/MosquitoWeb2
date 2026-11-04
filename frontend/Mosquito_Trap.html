@@ -1453,6 +1453,7 @@
       })
     }                                                          // paquetes de datos que salen
     let fS = 0, qS = 0, zS = 0, rS = 0, bS = 0, boS = 0, k5S = 0, visS = 0;
+    let autoB = 0, _autoBt = 0;   // avance automático de la animación de caja/puerta en sección 5
     // ---- Transicion automatica a la diapositiva 6: E6r avanza por tiempo (no por scroll). Entrar a la 6 -> la trampa se va y aparecen las demas; subir -> vuelve ----
     let E6r = 0, E6 = 0, _e6t = 0; window.E6 = 0; const E6_DUR = 2.4;     // segundos de la animacion completa
     const ldEl = document.getElementById('ld'); ldEl.style.transition = 'none';
@@ -1500,7 +1501,12 @@
 
     function tick() {
       { const n6 = performance.now(), d6 = Math.min(.05, (n6 - (_e6t || n6)) / 1000); _e6t = n6; E6r = Math.max(0, Math.min(1, E6r + ((window.curS || 0) >= 5 ? 1 : -1) * d6 / E6_DUR)); E6 = window.E6 = sm(E6r); ldEl.style.opacity = Math.min(1, E6 * 2.2) }
-      const M = scrollMap(); fS = lerp(fS, M.f, .08); qS = lerp(qS, M.q, .12); zS = lerp(zS, M.zf, .1); rS = lerp(rS, M.r, .12); bS = lerp(bS, M.b, .1); boS = lerp(boS, M.bo, .1);   // suaviza el movimiento
+      const M = scrollMap();
+      // --- Avance automático de b (puerta/caja) al entrar en sección 5 ---
+      { const now = performance.now(), dt6 = Math.min(.05, (now - (_autoBt || now)) / 1000); _autoBt = now;
+        if ((window.curS || 0) === 4) { autoB = Math.min(1, autoB + dt6 / 2.8); } else if ((window.curS || 0) < 4) { autoB = 0; }
+        M.b = Math.max(M.b, autoB); M.bo = Math.max(M.bo, sm(autoB / .3)); }
+      fS = lerp(fS, M.f, .08); qS = lerp(qS, M.q, .12); zS = lerp(zS, M.zf, .1); rS = lerp(rS, M.r, .12); bS = lerp(bS, M.b, .1); boS = lerp(boS, M.bo, .1);   // suaviza el movimiento
       const f = fS, i = Math.min(Math.floor(f), keys.length - 2), t = f - i;
       const a = keys[i], b = keys[i + 1];
       const mobile = innerWidth < 700;
