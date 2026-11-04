@@ -1292,7 +1292,7 @@
         p.material.opacity = dt * (u < .1 ? u * 10 : u > .85 ? (1 - u) / .15 : 1)
       })
     }                                                          // paquetes de datos que salen
-    let fS = 0, qS = 0, zS = 0, rS = 0, bS = 0, boS = 0, k5S = 0, visS = 1;
+    let fS = 0, qS = 0, zS = 0, rS = 0, bS = 0, boS = 0, k5S = 0, visS = 0;
     // ---- Transicion automatica a la diapositiva 6: E6r avanza por tiempo (no por scroll). Entrar a la 6 -> la trampa se va y aparecen las demas; subir -> vuelve ----
     let E6r = 0, E6 = 0, _e6t = 0; window.E6 = 0; const E6_DUR = 2.4;     // segundos de la animacion completa
     const ldEl = document.getElementById('ld'); ldEl.style.transition = 'none';
@@ -1356,8 +1356,8 @@
       pivot.position.set(px, py, pz); camera.position.z = cz; stepBox(bS);
       const _n = performance.now(), _dt = Math.min(.05, (_n - (window._pt || _n)) / 1000); window._pt = _n;
       stepPiece(_dt, qS, pivot.scale.x > .1, rS); stepCam(M.pn, rS);
-      const cs = window.curS || 0; visS = lerp(visS, cs > 2 ? 1 : 0, .08);
-      pivot.scale.setScalar(Math.max(visS * (1 - sm((E6 - .15) / .55)), .0001)); material.color.lerp(matTarget, .1);
+      const cs = window.curS || 0; visS = cs <= 1 ? 0 : lerp(visS, cs > 2 ? 1 : 0, .08);   // portada y problema: sin trampa, sin estela residual
+      pivot.scale.setScalar(Math.max(visS * (1 - sm((E6 - .15) / .55)), .0001)); pivot.visible = pivot.scale.x > .002; material.color.lerp(matTarget, .1);
       renderer.render(scene, camera);
       requestAnimationFrame(tick);
     }
