@@ -896,8 +896,8 @@
     .ntopics-row {
       display: flex;
       flex-direction: column;
-      gap: 0.5vh;
-      max-width: min(42vw, 440px);
+      gap: 0.8vh;
+      max-width: min(44vw, 460px);
       width: 100%
     }
 
@@ -907,32 +907,30 @@
 
     .ntopic {
       display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 11px 16px;
-      border-radius: 8px;
-      background: rgba(255,255,255,.04);
-      border: none;
-      border-left: 3px solid var(--lime);
+      align-items: stretch;
+      border-radius: 10px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(166,176,55,.18);
+      border-left: 4px solid var(--lime);
       text-decoration: none;
       color: var(--fg);
-      transition: background .25s, transform .22s, border-left-color .25s;
+      transition: background .25s, transform .22s, border-color .25s, box-shadow .25s;
       overflow: hidden
     }
 
     .ntopic:hover {
-      background: rgba(166,176,55,.13);
+      background: rgba(166,176,55,.14);
+      border-color: var(--lime);
       transform: translateX(6px);
-      border-left-color: var(--accent)
+      box-shadow: 0 4px 24px rgba(0,0,0,.35)
     }
 
     .ntopic-thumb {
-      width: 56px;
-      height: 44px;
-      border-radius: 6px;
+      width: 100px;
+      height: 72px;
       object-fit: cover;
       flex-shrink: 0;
-      opacity: .88
+      display: block
     }
 
     .ntopic-icon { font-size: 1.7rem; line-height: 1; flex-shrink: 0 }
@@ -940,20 +938,22 @@
     .ntopic-body {
       display: flex;
       flex-direction: column;
-      gap: 1px;
+      justify-content: center;
+      gap: 3px;
       flex: 1;
-      min-width: 0
+      min-width: 0;
+      padding: 10px 14px
     }
 
     .ntopic-label {
-      font: 700 .52rem system-ui;
+      font: 700 .55rem system-ui;
       letter-spacing: .2em;
       text-transform: uppercase;
       color: var(--lime)
     }
 
     .ntopic-title {
-      font: 900 1.2rem/1.15 'Archivo Black', Impact, system-ui;
+      font: 900 1.15rem/1.18 'Archivo Black', Impact, system-ui;
       color: var(--fg);
       white-space: nowrap;
       overflow: hidden;
@@ -965,7 +965,8 @@
       color: var(--accent);
       flex-shrink: 0;
       white-space: nowrap;
-      opacity: .8
+      padding: 0 14px 0 0;
+      align-self: center
     }
   </style>
 </head>
