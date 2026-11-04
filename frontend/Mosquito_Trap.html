@@ -737,7 +737,7 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      z-index: 0;
+      z-index: 1;
       pointer-events: none;
       opacity: 0;
       transition: opacity .8s
@@ -1646,7 +1646,9 @@
     let wStart = 0, wLast = -9999;
     function rod(c, x, y, a, u, col) { c.save(); c.translate(x, y); c.rotate(a); c.fillStyle = col; c.beginPath(); c.ellipse(0, 0, 2.6 * u, 1.2 * u, 0, 0, PI2); c.fill(); c.restore() }
     function wloop(t) {
-      requestAnimationFrame(wloop); if (window.curS === 2) { if (t - wLast > 800) wStart = t; wLast = t } if (t - wLast > 800) return;
+      requestAnimationFrame(wloop);
+      if (window.curS === 2) { if (t - wLast > 800) wStart = t; wLast = t }
+      if (t - wLast > 800) { wx.clearRect(0, 0, wb.width, wb.height); return; }
       const W = wb.width, H = wb.height, mob = innerWidth < 700, u = (mob ? W / 520 : Math.min(W / 1000, H / 700)) * 1.05, s = 60 * u, cx = W * (mob ? .56 : .32), cy = H * (mob ? .27 : .46), ph = ((t - wStart) / 1000) % TW;
       wx.clearRect(0, 0, W, H);
       wx.fillStyle = 'rgba(29,122,119,.07)'; wx.strokeStyle = 'rgba(29,122,119,.35)'; wx.lineWidth = 2 * u; wx.beginPath(); wx.arc(cx - 20 * u, cy + 10 * u, 200 * u, 0, PI2); wx.fill(); wx.stroke();
