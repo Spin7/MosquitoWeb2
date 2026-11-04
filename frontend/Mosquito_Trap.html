@@ -887,7 +887,6 @@
     <div class="card"><span class="tag">Smart Mechatronic Mosquito Trap · Nov 2026</span>
       <h1>Trampa Inteligente para Mosquitos</h1>
       <p class="lead">Una propuesta para volver a disfrutar los espacios que compartimos.</p>
-      <p class="sub" id="subHint">Mueve el cursor: se asustan · Desliza hacia abajo ↓</p>
     </div>
   </section>
 
@@ -1414,9 +1413,6 @@
     const isMob = innerWidth < 700;
     const bugCount = isMob ? 10 : 16;
     const bugs = Array.from({ length: bugCount }, () => ({ x: Math.random() * innerWidth * dpr, y: Math.random() * innerHeight * dpr, a: Math.random() * 6.28, s: .8 + Math.random() * .9, v: 1.1 + Math.random() * 1.2, ph: Math.random() * 9 }));
-    // Actualizar hint según si es touch o mouse
-    const subHint = document.getElementById('subHint');
-    if (subHint && isMob) subHint.textContent = 'Toca la pantalla: se asustan · Desliza hacia abajo ↓';
     const TAU = Math.PI * 2;
     // ---------- Escena: hospital, ambulancias y fumigadores (sección 2) ----------
     const sc = document.getElementById('sc'), sx = sc.getContext('2d'), sd = Math.min(devicePixelRatio, 2), PI2 = Math.PI * 2;
