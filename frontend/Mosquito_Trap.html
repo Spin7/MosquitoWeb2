@@ -1481,7 +1481,7 @@
       sx.fillStyle = '#f3f0e8'; sx.fillRect(hx - 70 * u, by - 30 * u, 140 * u, 30 * u); sx.fillStyle = '#d33'; sx.fillRect(hx - 66 * u, by - 17 * u, 14 * u, 4 * u); sx.fillRect(hx - 61 * u, by - 22 * u, 4 * u, 14 * u);
       sx.fillStyle = '#0f2a2e'; sx.font = '800 ' + 15 * u + 'px system-ui'; sx.textBaseline = 'middle'; sx.fillText('HOSPITAL', hx - 42 * u, by - 15 * u);
       sx.fillStyle = '#1d7a77'; sx.fillRect(hx - 14 * u, y0 - 50 * u, 28 * u, 50 * u);
-      room(bx + 10 * u, by + 10 * u, 140 * u, 105 * u, 0, t, true, u); room(bx + 190 * u, by + 10 * u, 140 * u, 105 * u, 1.7, t, false, u); room(bx + 10 * u, by + 135 * u, 140 * u, 105 * u, 3.1, t, false, u); room(bx + 190 * u, by + 135 * u, 140 * u, 105 * u, 4.6, t, true, u);
+      room(bx + 10 * u, by + 10 * u, 140 * u, 105 * u, 0, t, false, u); room(bx + 190 * u, by + 10 * u, 140 * u, 105 * u, 1.7, t, false, u); room(bx + 10 * u, by + 135 * u, 140 * u, 105 * u, 3.1, t, false, u); room(bx + 190 * u, by + 135 * u, 140 * u, 105 * u, 4.6, t, false, u);
       for (const a of SA) { if (a.x == null) a.x = a.d > 0 ? -120 * u : W + 120 * u; a.x += a.d * a.v * u; if (a.d > 0 && a.x > W + 120 * u) a.x = -120 * u; if (a.d < 0 && a.x < -120 * u) a.x = W + 120 * u; amb(a, t, y0 + a.l * u, u) }
       for (const p of SP) { sx.globalAlpha = .4 * (1 - p.l / 75); sx.fillStyle = '#b9c6c2'; sx.beginPath(); sx.arc(p.x, p.y, (6 + p.l * .55) * u, 0, PI2); sx.fill() } sx.globalAlpha = 1;
       const nz = []; for (const f of SF) { const n = fum(f, feet, uf); nz.push(n); if (++f.c % 3 == 0) { const v = 3.4 * u; SP.push({ x: n[0], y: n[1], l: 0, vx: Math.cos(f.ang) * v + (Math.random() - .5) * u, vy: Math.sin(f.ang) * v + (Math.random() - .5) * u }) } }
