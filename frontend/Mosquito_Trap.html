@@ -854,10 +854,28 @@
     section.tall.t5 {
       min-height: 260vh
     }
+
+    #hero-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-image: url('static/UNA_theme_minimalist.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.28;
+      pointer-events: none;
+      transition: opacity 0.6s
+    }
+
+    #hero-bg.hidden {
+      opacity: 0
+    }
   </style>
 </head>
 
 <body>
+  <div id="hero-bg"></div>
   <div id="big"></div><canvas id="mq"></canvas><canvas id="sc"></canvas><canvas id="wb"></canvas><canvas
     id="ld"></canvas><canvas id="c"></canvas>
   <div id="bar"></div>
@@ -865,8 +883,8 @@
   <nav id="nav"></nav>
   <label id="load">Cargar mi STL<input type="file" id="file" accept=".stl"></label>
 
-  <section class="center" style="background-image: url('static/UNA_theme_minimalist.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-    <div class="card" style="background: rgba(255,255,255,0.18); backdrop-filter: blur(4px);"><span class="tag">Smart Mechatronic Mosquito Trap · Nov 2026</span>
+  <section class="center">
+    <div class="card"><span class="tag">Smart Mechatronic Mosquito Trap · Nov 2026</span>
       <h1>Trampa Inteligente para Mosquitos</h1>
       <p class="lead">Una propuesta para volver a disfrutar los espacios que compartimos.</p>
       <p class="sub" id="subHint">Mueve el cursor: se asustan · Desliza hacia abajo ↓</p>
@@ -1611,6 +1629,17 @@
       dT.textContent = i == null ? 'Inversión' : L[i][0].split(' ').slice(0, 2).join(' '); dV.textContent = i == null ? '$300.000' : L[i][1]
     }
     document.querySelectorAll('.don [data-i]').forEach(e => { e.onmouseenter = e.onclick = () => hi(+e.dataset.i); e.onmouseleave = () => hi(null) });
+  </script>
+
+  <script>
+    (function () {
+      const bg = document.getElementById('hero-bg');
+      function update() {
+        bg.classList.toggle('hidden', window.scrollY > window.innerHeight * 0.6);
+      }
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    })();
   </script>
 </body>
 
