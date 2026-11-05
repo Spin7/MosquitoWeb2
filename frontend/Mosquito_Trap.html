@@ -1629,12 +1629,12 @@
     const bugCount = isMob ? 10 : 16;
     const bugs = Array.from({ length: bugCount }, () => ({ x: Math.random() * innerWidth * dpr, y: Math.random() * innerHeight * dpr, a: Math.random() * 6.28, s: .8 + Math.random() * .9, v: 1.1 + Math.random() * 1.2, ph: Math.random() * 9 }));
     const TAU = Math.PI * 2;
-    // ---------- Escena: hospital, ambulancias y fumigadores (sección 2) ----------
+    // ---------- Escena: gente fumigando mosquitos (sección 2) ----------
     const sc = document.getElementById('sc'), sx = sc.getContext('2d'), sd = Math.min(devicePixelRatio, 2), PI2 = Math.PI * 2;
     function src() { sc.width = innerWidth * sd; sc.height = innerHeight * sd }
     addEventListener('resize', src); src();
-    const SF = [{ fx: .60, ang: 0, dir: 1, ph: 0, c: 0 }, { fx: .74, ang: 0, dir: -1, ph: 2, c: 0 }], SP = [], SA = [{ x: null, d: 1, l: 30, v: 2.6 }, { x: null, d: -1, l: 50, v: 2.1 }];
-    const SB = Array.from({ length: 9 }, () => ({ ix: Math.random(), iy: Math.random(), a: Math.random() * 6.28, ph: Math.random() * 9, x: null, y: 0 }));
+    const SF = [{ fx: .56, ang: 0, dir: 1, ph: 0, c: 0 }, { fx: .72, ang: 0, dir: -1, ph: 2, c: 0 }, { fx: .88, ang: 0, dir: -1, ph: 4, c: 0 }], SP = [], SA = [{ x: null, d: 1, l: 30, v: 2.6 }, { x: null, d: -1, l: 50, v: 2.1 }];
+    const SB = Array.from({ length: 13 }, () => ({ ix: Math.random(), iy: Math.random(), a: Math.random() * 6.28, ph: Math.random() * 9, x: null, y: 0 }));
     let sLast = 0;
     function drawM(c, x, y, a, s, t, col) {
       c.save(); c.translate(x, y); c.rotate(a); c.fillStyle = c.strokeStyle = col; c.lineWidth = Math.max(1, .07 * s);
@@ -1678,30 +1678,23 @@
       requestAnimationFrame(sloop); if (window.curS === 1) sLast = t; if (t - sLast > 800) return;
       const W = sc.width, H = sc.height, mob = innerWidth < 700, u = mob ? W / 700 : Math.min(W / 1000, H / 700), y0 = H * (mob ? .4 : .72), uf = u * 1.5, feet = y0 + 8 * u, lo = W * (mob ? .04 : .50), hi = W * (mob ? .95 : .95);
       sx.clearRect(0, 0, W, H);
-      for (const b of SB) if (b.x == null) { b.x = lo + (hi - lo) * b.ix; b.y = y0 - 200 * u + 170 * u * b.iy }
+      for (const b of SB) if (b.x == null) { b.x = lo + (hi - lo) * b.ix; b.y = y0 - 300 * u + 260 * u * b.iy }
       for (const f of SF) {
-        if (f.x == null) f.x = f.fx * W; let tg = SB[0], bd = 1e9; for (const b of SB) { const d = Math.hypot(b.x - f.x, b.y - (y0 + 70 * u - 50 * uf * 0.62)); if (d < bd) { bd = d; tg = b } }
-        const dx = tg.x - f.x, mv = Math.abs(dx) > 70 * uf; f.dir = dx >= 0 ? 1 : -1; if (mv) f.x += Math.sign(dx) * .9 * u; f.x = Math.max(lo, Math.min(hi, f.x)); f.ph += mv ? .2 : .05; f.ang = Math.atan2(tg.y - (y0 + 70 * u - 50 * uf * 0.62), tg.x - f.x)
+        if (f.x == null) f.x = f.fx * W; let tg = SB[0], bd = 1e9; for (const b of SB) { const d = Math.hypot(b.x - f.x, b.y - (y0 + 70 * u - 50 * uf * 0.95)); if (d < bd) { bd = d; tg = b } }
+        const dx = tg.x - f.x, mv = Math.abs(dx) > 70 * uf; f.dir = dx >= 0 ? 1 : -1; if (mv) f.x += Math.sign(dx) * .9 * u; f.x = Math.max(lo, Math.min(hi, f.x)); f.ph += mv ? .2 : .05; f.ang = Math.atan2(tg.y - (y0 + 70 * u - 50 * uf * 0.95), tg.x - f.x)
       }
       for (const p of SP) { p.l++; p.x += p.vx; p.y += p.vy; p.vx *= .97; p.vy *= .97 }
       while (SP.length && SP[0].l > 75) SP.shift();
       sx.fillStyle = '#0f2a2e'; sx.fillRect(0, y0, W, 62 * u); sx.fillStyle = '#16363a'; sx.fillRect(0, y0 + 12 * u, W, 44 * u);
       sx.strokeStyle = 'rgba(243,240,232,.5)'; sx.lineWidth = 2 * u; sx.setLineDash([22 * u, 18 * u]); sx.beginPath(); sx.moveTo(0, y0 + 35 * u); sx.lineTo(W, y0 + 35 * u); sx.stroke(); sx.setLineDash([]);
-      const hx = W * (mob ? .5 : .68), bx = hx - 170 * u, by = y0 - 260 * u;
-      sx.fillStyle = '#0f2a2e'; sx.fillRect(bx, by, 340 * u, 260 * u); sx.strokeStyle = '#1d7a77'; sx.lineWidth = 3 * u; sx.strokeRect(bx, by, 340 * u, 260 * u);
-      sx.fillStyle = '#f3f0e8'; sx.fillRect(hx - 70 * u, by - 30 * u, 140 * u, 30 * u); sx.fillStyle = '#d33'; sx.fillRect(hx - 66 * u, by - 17 * u, 14 * u, 4 * u); sx.fillRect(hx - 61 * u, by - 22 * u, 4 * u, 14 * u);
-      sx.fillStyle = '#0f2a2e'; sx.font = '800 ' + 15 * u + 'px system-ui'; sx.textBaseline = 'middle'; sx.fillText('HOSPITAL', hx - 42 * u, by - 15 * u);
-      sx.fillStyle = '#1d7a77'; sx.fillRect(hx - 14 * u, y0 - 50 * u, 28 * u, 50 * u);
-      room(bx + 10 * u, by + 10 * u, 140 * u, 105 * u, 0, t, false, u); room(bx + 190 * u, by + 10 * u, 140 * u, 105 * u, 1.7, t, false, u); room(bx + 10 * u, by + 135 * u, 140 * u, 105 * u, 3.1, t, false, u); room(bx + 190 * u, by + 135 * u, 140 * u, 105 * u, 4.6, t, false, u);
-      for (const a of SA) { if (a.x == null) a.x = a.d > 0 ? -120 * u : W + 120 * u; a.x += a.d * a.v * u; if (a.d > 0 && a.x > W + 120 * u) a.x = -120 * u; if (a.d < 0 && a.x < -120 * u) a.x = W + 120 * u; amb(a, t, y0 + a.l * u, u) }
       for (const p of SP) { sx.globalAlpha = .4 * (1 - p.l / 75); sx.fillStyle = '#b9c6c2'; sx.beginPath(); sx.arc(p.x, p.y, (6 + p.l * .55) * u, 0, PI2); sx.fill() } sx.globalAlpha = 1;
-      const nz = []; for (const f of SF) { const n = fum(f, y0 + 70 * u, uf * 0.62); nz.push(n); if (++f.c % 3 == 0) { const v = 3.4 * u; SP.push({ x: n[0], y: n[1], l: 0, vx: Math.cos(f.ang) * v + (Math.random() - .5) * u, vy: Math.sin(f.ang) * v + (Math.random() - .5) * u }) } }
+      const nz = []; for (const f of SF) { const n = fum(f, y0 + 70 * u, uf * 0.95); nz.push(n); if (++f.c % 3 == 0) { const v = 3.4 * u; SP.push({ x: n[0], y: n[1], l: 0, vx: Math.cos(f.ang) * v + (Math.random() - .5) * u, vy: Math.sin(f.ang) * v + (Math.random() - .5) * u }) } }
       for (const b of SB) {
         b.a += (Math.random() - .5) * .35; let sp = 2.2 * u;
         for (const n of nz) { const dx = b.x - n[0], dy = b.y - n[1]; if (Math.hypot(dx, dy) < 150 * u) { let df = Math.atan2(dy, dx) - b.a; df = Math.atan2(Math.sin(df), Math.cos(df)); b.a += df * .3; sp = 4.6 * u } }
         b.x += Math.cos(b.a) * sp; b.y += Math.sin(b.a) * sp;
         if (b.x < lo || b.x > hi) { b.a = Math.PI - b.a; b.x = Math.max(lo, Math.min(hi, b.x)) }
-        const ymin = y0 - 210 * u, ymax = y0 - 30 * u; if (b.y < ymin || b.y > ymax) { b.a = -b.a; b.y = Math.max(ymin, Math.min(ymax, b.y)) }
+        const ymin = y0 - 320 * u, ymax = y0 - 30 * u; if (b.y < ymin || b.y > ymax) { b.a = -b.a; b.y = Math.max(ymin, Math.min(ymax, b.y)) }
         drawM(sx, b.x, b.y, b.a, 7 * u, t + b.ph * 50, '#f3f0e8')
       }
     }
