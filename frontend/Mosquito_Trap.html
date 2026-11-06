@@ -269,7 +269,7 @@
     }
 
     @media(min-width:700px) {
-      .problem .stats { grid-template-columns: 1fr }
+      .problem .stats { grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr) }
 
       .problem .stat.alt b { white-space: nowrap; font-size: 1.75rem }
     }
@@ -1098,6 +1098,7 @@
       <div class="card wide problem"><span class="tag">El problema</span>
         <h2>El problema no es solo el mosquito.</h2>
         <div class="stats">
+          <div class="stat"><b data-n="20000">20.000</b><span>muertes por año</span></div>
           <div class="stat alt"><b>+ $20 millones</b><span>por año en salud en Paraguay</span></div>
         </div>
         <p>80 millones de infecciones por dengue a nivel mundial (OMS).</p>
