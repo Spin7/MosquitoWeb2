@@ -223,12 +223,12 @@
     }
 
     h1 {
-      letter-spacing: .01em
+      letter-spacing: .035em
     }
 
     h2 {
       line-height: 1.2;
-      letter-spacing: .015em
+      letter-spacing: .04em
     }
 
     .lead {
@@ -269,9 +269,20 @@
     }
 
     @media(min-width:700px) {
-      .problem .stats { grid-template-columns: 1fr 2fr }
+      .problem .stats { grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr) }
 
       .problem .stat.alt b { white-space: nowrap; font-size: 1.75rem }
+    }
+
+    @media(min-width:701px) {
+      .card-group {
+        width: min(720px, 84vw)
+      }
+
+      .problem.card.wide {
+        max-width: 720px;
+        width: min(720px, 84vw)
+      }
     }
 
     .costs { margin: .4em 0 .8em }
@@ -987,7 +998,7 @@
       display: flex;
       flex-direction: column;
       gap: 1.2vh;
-      max-width: min(48vw, 640px);
+      max-width: min(720px, 84vw);
       width: 100%
     }
 
@@ -1046,6 +1057,7 @@
     .ntopic-title {
       font: 900 1.35rem/1.22 'Archivo Black', 'Arial Black', Impact, system-ui;
       color: var(--fg);
+      letter-spacing: .025em;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -1266,13 +1278,13 @@
         <div class="mem"><img src="static/members/Lucas.jpg" alt="Lucas Pin">Lucas Pin<small>Ing. Mecatrónico</small></div>
         <div class="mem"><img src="static/members/Matteo.jpg" alt="Matteo Martínez">Matteo Martínez<small>Ing. Mecatrónico</small></div>
       </div>
-      <h2 style="font-size:1.2rem">Modelo de negocio</h2>
+      <h2 style="font-size:1.2rem">Costos y retorno para inversores</h2>
       <div class="stats costs">
         <div class="stat"><b>$1.500</b><span>por trampa</span></div>
         <div class="stat"><b>$60</b><span>suscripción mensual</span></div>
         <div class="stat alt"><b>12%</b><span>ganancia para inversores</span></div>
       </div>
-      <h2 style="font-size:1.2rem">¿Qué necesitamos?</h2>
+      <h2 style="font-size:1.2rem">Uso de la inversión: $100.000</h2>
       <div class="don"><svg viewBox="0 0 42 42">
           <circle data-i="0" r="15.915" cx="21" cy="21" stroke="#4b57c9" stroke-dasharray="39.4 60.6"
             stroke-dashoffset="0" transform="rotate(-90 21 21)" />
