@@ -19,6 +19,9 @@
   <meta name="twitter:title" content="Trampa Inteligente para Mosquitos">
   <meta name="twitter:description" content="Una propuesta para volver a disfrutar los espacios que compartimos.">
   <meta name="twitter:image" content="static/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #f4f5f7;
@@ -220,11 +223,12 @@
     }
 
     h1 {
-      letter-spacing: -.02em
+      letter-spacing: .01em
     }
 
     h2 {
-      line-height: 1.1
+      line-height: 1.2;
+      letter-spacing: .015em
     }
 
     .lead {
@@ -263,6 +267,18 @@
     .stat.alt * {
       color: #10240f
     }
+
+    @media(min-width:700px) {
+      .problem .stats { grid-template-columns: 1fr 2fr }
+
+      .problem .stat.alt b { white-space: nowrap; font-size: 1.75rem }
+    }
+
+    .costs { margin: .4em 0 .8em }
+
+    .costs .stat { padding: 10px 12px }
+
+    .costs .stat b { font-size: 1.5rem }
 
     .stat b {
       display: block;
@@ -429,7 +445,7 @@
 
     .team {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(4, 1fr);
       gap: 10px;
       margin: 1em 0
     }
@@ -601,7 +617,7 @@
 
     h1,
     h2 {
-      font-family: 'Archivo Black', Impact, system-ui, sans-serif;
+      font-family: 'Archivo Black', 'Arial Black', Impact, system-ui, sans-serif;
       font-weight: 900
     }
 
@@ -684,7 +700,7 @@
       z-index: 0;
       left: 3vw;
       bottom: -3vw;
-      font: 900 clamp(6rem, 22vw, 22rem)/1 'Archivo Black', Impact, system-ui, sans-serif;
+      font: 900 clamp(6rem, 22vw, 22rem)/1 'Archivo Black', 'Arial Black', Impact, system-ui, sans-serif;
       color: var(--lime);
       opacity: .18;
       pointer-events: none;
@@ -971,7 +987,7 @@
       display: flex;
       flex-direction: column;
       gap: 1.2vh;
-      max-width: min(44vw, 520px);
+      max-width: min(48vw, 640px);
       width: 100%
     }
 
@@ -1028,7 +1044,7 @@
     }
 
     .ntopic-title {
-      font: 900 1.35rem/1.22 'Archivo Black', Impact, system-ui;
+      font: 900 1.35rem/1.22 'Archivo Black', 'Arial Black', Impact, system-ui;
       color: var(--fg);
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -1067,10 +1083,11 @@
 
   <section style="flex-direction:column; align-items:flex-start; justify-content:flex-start; padding-top:5vh;">
     <div class="card-group">
-      <div class="card"><span class="tag">El problema</span>
+      <div class="card wide problem"><span class="tag">El problema</span>
         <h2>El problema no es solo el mosquito.</h2>
         <div class="stats">
           <div class="stat"><b data-n="20000">20.000</b><span>muertes por año</span></div>
+          <div class="stat alt"><b>+ $20 millones</b><span>por año en salud en Paraguay</span></div>
           <div class="stat alt"><b>+ 20 millones USD</b><span>por año en salud en Paraguay</span></div>
         </div>
         <p>80 millones de infecciones por dengue a nivel mundial (OMS).</p>
@@ -1249,27 +1266,30 @@
         <div class="mem"><img src="static/members/Lucas.jpg" alt="Lucas Pin">Lucas Pin<small>Ing. Mecatrónico</small></div>
         <div class="mem"><img src="static/members/Matteo.jpg" alt="Matteo Martínez">Matteo Martínez<small>Ing. Mecatrónico</small></div>
       </div>
+      <h2 style="font-size:1.2rem">Modelo de negocio</h2>
+      <div class="stats costs">
+        <div class="stat"><b>$1.500</b><span>por trampa</span></div>
+        <div class="stat"><b>$60</b><span>suscripción mensual</span></div>
+        <div class="stat alt"><b>12%</b><span>ganancia para inversores</span></div>
+      </div>
       <h2 style="font-size:1.2rem">¿Qué necesitamos?</h2>
       <div class="don"><svg viewBox="0 0 42 42">
-          <circle data-i="0" r="15.915" cx="21" cy="21" stroke="#4b57c9" stroke-dasharray="34.4 65.6"
+          <circle data-i="0" r="15.915" cx="21" cy="21" stroke="#4b57c9" stroke-dasharray="39.4 60.6"
             stroke-dashoffset="0" transform="rotate(-90 21 21)" />
-          <circle data-i="1" r="15.915" cx="21" cy="21" stroke="#ee4444" stroke-dasharray="24.4 75.6"
-            stroke-dashoffset="-35" transform="rotate(-90 21 21)" />
-          <circle data-i="2" r="15.915" cx="21" cy="21" stroke="#3aa843" stroke-dasharray="14.4 85.6"
-            stroke-dashoffset="-60" transform="rotate(-90 21 21)" />
+          <circle data-i="1" r="15.915" cx="21" cy="21" stroke="#ee4444" stroke-dasharray="29.4 70.6"
+            stroke-dashoffset="-40" transform="rotate(-90 21 21)" />
+          <circle data-i="2" r="15.915" cx="21" cy="21" stroke="#3aa843" stroke-dasharray="19.4 80.6"
+            stroke-dashoffset="-70" transform="rotate(-90 21 21)" />
           <circle data-i="3" r="15.915" cx="21" cy="21" stroke="#f2c230" stroke-dasharray="9.4 90.6"
-            stroke-dashoffset="-75" transform="rotate(-90 21 21)" />
-          <circle data-i="4" r="15.915" cx="21" cy="21" stroke="#5fd6dc" stroke-dasharray="14.4 85.6"
-            stroke-dashoffset="-85" transform="rotate(-90 21 21)" /><text id="dT" x="21" y="20" text-anchor="middle"
+            stroke-dashoffset="-90" transform="rotate(-90 21 21)" /><text id="dT" x="21" y="20" text-anchor="middle"
             font-size="4" fill="currentColor">Inversión</text><text id="dV" x="21" y="26" text-anchor="middle"
-            font-size="5" font-weight="700" fill="currentColor">$300.000</text>
+            font-size="5" font-weight="700" fill="currentColor">$100.000</text>
         </svg>
         <div class="leg">
-          <div data-i="0"><u style="background:#4b57c9"></u>Desarrollo de piloto y MVP · $35K</div>
-          <div data-i="1"><u style="background:#ee4444"></u>Estrategia go-to-market y pilotos · $25K</div>
-          <div data-i="2"><u style="background:#3aa843"></u>Marketing y publicidad · $15K</div>
-          <div data-i="3"><u style="background:#f2c230"></u>Registros de patentes · $10K</div>
-          <div data-i="4"><u style="background:#5fd6dc"></u>Equipo y asesores del sector · $15K</div>
+          <div data-i="0"><u style="background:#4b57c9"></u>Prototipo a MVP industrial · $40K</div>
+          <div data-i="1"><u style="background:#ee4444"></u>Ejecutar pilotos comerciales · $30K</div>
+          <div data-i="2"><u style="background:#3aa843"></u>Marketing · $20K</div>
+          <div data-i="3"><u style="background:#f2c230"></u>Registrar patentes · $10K</div>
         </div>
       </div>
     </div>
@@ -1977,7 +1997,7 @@
       c.fillText('NUBE · ' + nrec.toLocaleString('es-PY') + ' registros', cx, cy + .78 * R); if (!mob) { c.fillStyle = 'rgba(238,243,234,.6)'; c.font = '600 ' + 10.5 * u + 'px system-ui'; c.fillText('datos en tiempo real', cx, cy + .78 * R + 17 * u) } c.textAlign = 'start'
     }
     requestAnimationFrame(nloop);
-    // ---------- Escena: campo de cultivo con trampas de mosquitos, orugas y abejas (seccion 9) ----------
+    // ---------- Escena: campo de cultivo con trampas de mosquitos, orugas y polillas (seccion 9) ----------
     const cp = document.getElementById('cp'), cpx = cp.getContext('2d'); let CPL = [];
     function cprs() {
       const d = Math.min(devicePixelRatio, 2); cp.width = innerWidth * d; cp.height = innerHeight * d;
@@ -1997,25 +2017,28 @@
       c.fillStyle = '#fff'; c.beginPath(); c.arc(.28 * s, -s * .65, s * .16, 0, PI2); c.fill(); c.fillStyle = '#111'; c.beginPath(); c.arc(.32 * s, -s * .65, s * .08, 0, PI2); c.fill();
       c.restore()
     }
-    // 3 trampas de distinto color: mosquitos (izq.), orugas (abajo a la izq.) y abejas (der.)
+    // 3 trampas de distinto color: mosquitos (izq.), orugas (abajo a la izq.) y polillas (der.)
     const CPT = [
       { lab: 'MOSQUITOS', roof: '#2a9d8f', win: 'rgba(79,209,197,.6)', lure: '#9b7bff', glow: '150,120,255', body: '#8fa9ad', fly: 1, n: 4 },
       { lab: 'ORUGAS', roof: '#a6b037', win: 'rgba(200,220,90,.55)', lure: '#ffcf4a', glow: '255,214,90', body: '#a3a67c', fly: 0, n: 3 },
-      { lab: 'ABEJAS', roof: '#ee943a', win: 'rgba(255,196,110,.6)', lure: '#ff7aa8', glow: '255,140,120', body: '#b89f80', fly: 1, n: 2 }];
+      { lab: 'POLILLAS', roof: '#ee943a', win: 'rgba(255,214,140,.6)', lure: '#fff1a8', glow: '255,236,160', body: '#b89f80', fly: 1, n: 2 }];
     const cpPos = () => { const W = cp.width, H = cp.height; return innerWidth < 700 ? [[W * .17, H * .9], [W * .5, H * .96], [W * .83, H * .9]] : [[W * .1, H * .74], [W * .27, H * .95], [W * .87, H * .8]] };   // escritorio: la tarjeta ocupa ~37-62% del ancho, las trampas quedan fuera de ella
     const CPC = Array.from({ length: 7 }, (_, i) => ({ x: Math.random(), ln: Math.random(), ph: Math.random() * 6.28, st: 0, k: 0, c: i % 3, w: 0 }));   // orugas
-    const CPF = Array.from({ length: 10 }, (_, i) => ({ tp: i < 5 ? 0 : 2, st: 0, x: 0, y: 0, a: 0, k: 0, w: 0, ph: Math.random() * 9 }));   // mosquitos y abejas
+    const CPF = Array.from({ length: 10 }, (_, i) => ({ tp: i < 5 ? 0 : 2, st: 0, x: 0, y: 0, a: 0, k: 0, w: 0, ph: Math.random() * 9 }));   // mosquitos y polillas
     const CPCOL = ['#8bc34a', '#a6c94a', '#7cb342']; let cpLast = -9999, cpT = 0;
-    function beeDraw(c, x, y, a, s, t, al) {                                                                             // abeja: cuerpo a rayas y alas rapidas
-      c.save(); c.globalAlpha = Math.max(0, al); c.translate(x, y); c.rotate(a); const w = Math.sin(t * 60);
-      c.fillStyle = 'rgba(255,255,255,.75)'; c.strokeStyle = 'rgba(120,140,150,.6)'; c.lineWidth = Math.max(1, .06 * s);
-      for (const d of [-1, 1]) { c.save(); c.translate(.1 * s, d * .3 * s); c.rotate(d * (.9 + .5 * w)); c.beginPath(); c.ellipse(-.45 * s, 0, .6 * s, .28 * s, 0, 0, PI2); c.fill(); c.stroke(); c.restore() }
-      c.fillStyle = '#2b2b2b'; c.beginPath(); c.moveTo(-1.15 * s, 0); c.lineTo(-.85 * s, -.12 * s); c.lineTo(-.85 * s, .12 * s); c.fill();   // aguijon
-      c.save(); c.beginPath(); c.ellipse(0, 0, 1 * s, .62 * s, 0, 0, PI2); c.clip(); c.fillStyle = '#f5c542'; c.fillRect(-s, -s, 2 * s, 2 * s);
-      c.fillStyle = '#2b2b2b'; for (const bx of [-.55, -.1, .35]) c.fillRect(bx * s - .12 * s, -s, .24 * s, 2 * s); c.restore();
-      c.fillStyle = '#2b2b2b'; c.beginPath(); c.arc(1 * s, 0, .4 * s, 0, PI2); c.fill();
-      c.strokeStyle = '#2b2b2b'; c.lineWidth = Math.max(1, .08 * s); c.beginPath(); c.moveTo(1.2 * s, -.2 * s); c.lineTo(1.6 * s, -.5 * s); c.moveTo(1.2 * s, .2 * s); c.lineTo(1.6 * s, .5 * s); c.stroke();
-      c.restore()
+    function mothDraw(c, x, y, a, s, t, al) {                                                                            // polilla: alas anchas marrones que aletean y antenas plumosas
+      c.save(); c.globalAlpha = Math.max(0, al); c.translate(x, y); c.rotate(a); const f = .3 + .7 * Math.abs(Math.cos(t * 13));
+      c.lineWidth = Math.max(1, .07 * s); c.strokeStyle = '#6e5840';
+      for (const d of [-1, 1]) {
+        c.fillStyle = '#9c8060'; c.beginPath(); c.moveTo(-.3 * s, 0); c.lineTo(-.95 * s, d * .95 * s * f); c.lineTo(-1.3 * s, d * .45 * s * f); c.closePath(); c.fill(); c.stroke();   // ala trasera
+        c.fillStyle = '#c2a57f'; c.beginPath(); c.moveTo(.3 * s, 0); c.lineTo(-.15 * s, d * 1.5 * s * f); c.lineTo(-1.05 * s, d * 1.25 * s * f); c.lineTo(-.55 * s, d * .12 * s); c.closePath(); c.fill(); c.stroke();   // ala delantera
+        c.fillStyle = '#6e5840'; c.beginPath(); c.ellipse(-.45 * s, d * .8 * s * f, .17 * s, .17 * s * f + .02 * s, 0, 0, PI2); c.fill();   // mancha
+      }
+      c.fillStyle = '#5e4a36'; c.beginPath(); c.ellipse(-.3 * s, 0, .75 * s, .22 * s, 0, 0, PI2); c.fill();
+      c.fillStyle = '#4a3a2a'; c.beginPath(); c.arc(.5 * s, 0, .22 * s, 0, PI2); c.fill();
+      c.strokeStyle = '#4a3a2a'; c.lineWidth = Math.max(1, .06 * s); c.beginPath();
+      for (const d of [-1, 1]) { c.moveTo(.6 * s, d * .1 * s); c.lineTo(1.25 * s, d * .6 * s); for (let k = 1; k <= 3; k++) { const q = k / 4, px = .6 * s + .65 * s * q, py = d * (.1 * s + .5 * s * q); c.moveTo(px, py); c.lineTo(px + .12 * s, py - d * .1 * s) } }
+      c.stroke(); c.restore()
     }
     function cpTrap(c, x, y, S, T, k, ts) {
       c.save(); c.translate(x, y); c.scale(S, S); let g;
@@ -2085,21 +2108,21 @@
             if (q >= 1) { if (on) CPT[1].n++; o.st = 3; o.k = 0; o.cx = tx + o.d * 27 * S; o.cy = ty - 24 * S }
           } else { o.k += dt; if (o.k < .6) flash(o.cx, o.cy, '166,176,55', o.k / .6); if (o.k > o.w) { o.st = 0; o.x = Math.random(); o.ln = Math.random() } }
         } }
-      // mosquitos y abejas: vuelan cerca, el cebo los atrae y entran por el embudo de su trampa
+      // mosquitos y polillas: vuelan cerca, la luz/cebo los atrae y entran por el embudo de su trampa
       for (const o of CPF) {
-        const k = o.tp, [tx, ty] = TP[k], S = SS[k], ex = tx - 6 * S, ey = ty - 118 * S, bee = k === 2, s = (bee ? 6 : 5.5) * u * (mob ? .6 : 1);
+        const k = o.tp, [tx, ty] = TP[k], S = SS[k], ex = tx - 6 * S, ey = ty - 118 * S, moth = k === 2, s = (moth ? 10 : 5.5) * u * (mob ? .6 : 1);
         if (o.st === 0) { o.x = tx + (Math.random() - .5) * W * (mob ? .3 : .26); o.y = mob ? H * (.7 + Math.random() * .12) : H * (.3 + Math.random() * .35); o.a = Math.random() * 6.28; o.k = 0; o.st = 1; o.w = .8 + Math.random() * 2.5 }
         if (o.st === 1) {
           o.k += dt; let da = Math.atan2(ey - o.y, ex - o.x) - o.a; da = Math.atan2(Math.sin(da), Math.cos(da));
-          o.a += da * Math.min(1, (.4 + o.k * .35) * dt * 2) + (Math.random() - .5) * (bee ? .5 : .3);
-          const sp = (bee ? 70 : 45) * u * dt * (mob ? .6 : 1); o.x += Math.cos(o.a) * sp; o.y += Math.sin(o.a) * sp + (bee ? Math.sin(ts * 14 + o.ph) * .7 * u : 0);
+          o.a += da * Math.min(1, (.4 + o.k * .35) * dt * 2) + (Math.random() - .5) * (moth ? .6 : .3);
+          const sp = (moth ? 50 : 45) * u * dt * (mob ? .6 : 1); o.x += Math.cos(o.a) * sp; o.y += Math.sin(o.a) * sp + (moth ? Math.sin(ts * 14 + o.ph) * .7 * u : 0);
           if (Math.hypot(ex - o.x, ey - o.y) < 8 * u) { o.st = 2; o.k = 0; o.sx = o.x; o.sy = o.y }
-          const al = Math.min(1, o.k / .5); if (bee) beeDraw(c, o.x, o.y, o.a, s, ts + o.ph, al); else { c.save(); c.globalAlpha = al; drawM(c, o.x, o.y, o.a, s * 1.3, t + o.ph * 50, '#0f2a2e'); c.restore() }
+          const al = Math.min(1, o.k / .5); if (moth) mothDraw(c, o.x, o.y, o.a, s, ts + o.ph, al); else { c.save(); c.globalAlpha = al; drawM(c, o.x, o.y, o.a, s * 1.3, t + o.ph * 50, '#0f2a2e'); c.restore() }
         } else if (o.st === 2) {                                                                                                       // cae dentro del embudo
           o.k += dt / .45; const q = Math.min(1, o.k), x2 = o.sx + (ex - o.sx) * q, y2 = o.sy + (ey + 16 * S - o.sy) * q;
-          if (bee) beeDraw(c, x2, y2, Math.PI / 2, s * (1 - .6 * q), ts + o.ph, 1 - q); else { c.save(); c.globalAlpha = 1 - q; drawM(c, x2, y2, Math.PI / 2, s * 1.3 * (1 - .6 * q), t, '#0f2a2e'); c.restore() }
+          if (moth) mothDraw(c, x2, y2, Math.PI / 2, s * (1 - .6 * q), ts + o.ph, 1 - q); else { c.save(); c.globalAlpha = 1 - q; drawM(c, x2, y2, Math.PI / 2, s * 1.3 * (1 - .6 * q), t, '#0f2a2e'); c.restore() }
           if (q >= 1) { if (on) CPT[k].n++; o.st = 3; o.k = 0 }
-        } else { o.k += dt; if (o.k < .6) flash(ex, ey, bee ? '238,148,58' : '42,157,143', o.k / .6); if (o.k > o.w) o.st = 0 }
+        } else { o.k += dt; if (o.k < .6) flash(ex, ey, moth ? '238,148,58' : '42,157,143', o.k / .6); if (o.k > o.w) o.st = 0 }
       }
     }
     requestAnimationFrame(cploop);
@@ -2120,11 +2143,11 @@
     }
     [...ev.children].forEach(b => b.onclick = () => showEv(b));
     let evDone = false; new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && !evDone) { evDone = true; showEv(ev.children[0]) } }), { threshold: .5 }).observe(ev);
-    const L = [['Desarrollo de piloto y MVP', '$35K'], ['Estrategia go-to-market y pilotos', '$25K'], ['Marketing y publicidad', '$15K'], ['Registros de patentes', '$10K'], ['Equipo y asesores del sector', '$15K']];
+    const L = [['Prototipo a MVP industrial', '$40K', 'MVP industrial'], ['Ejecutar pilotos comerciales', '$30K', 'Pilotos'], ['Marketing', '$20K', 'Marketing'], ['Registrar patentes', '$10K', 'Patentes']];
     const dT = document.getElementById('dT'), dV = document.getElementById('dV');
     function hi(i) {
       document.querySelectorAll('.don circle').forEach(c => c.classList.toggle('on', c.dataset.i == i));
-      dT.textContent = i == null ? 'Inversión' : L[i][0].split(' ').slice(0, 2).join(' '); dV.textContent = i == null ? '$300.000' : L[i][1]
+      dT.textContent = i == null ? 'Inversión' : L[i][2]; dV.textContent = i == null ? '$100.000' : L[i][1]
     }
     document.querySelectorAll('.don [data-i]').forEach(e => { e.onmouseenter = e.onclick = () => hi(+e.dataset.i); e.onmouseleave = () => hi(null) });
   </script>
