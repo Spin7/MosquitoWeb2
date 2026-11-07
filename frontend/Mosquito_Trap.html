@@ -1083,6 +1083,49 @@
       align-self: center;
       opacity: .85
     }
+
+    /* ---- Escala para proyección (solo escritorio) ----
+       Cada tarjeta se agranda con su contenido (--zt) tomando 1920x1080 como referencia;
+       --vs lo fija el JS = min(ancho/1920, alto/1080) para que se vea igual en cualquier proyector. */
+    @media(min-width:701px) {
+      .sl3 > .card, .sl4 > .card, .sl5 > .card, .sl6 > .card, .sl7 > .card, .sl8 > .card, .sl9 > .card {
+        zoom: max(1, calc(var(--zt) * var(--vs, 1)))
+      }
+
+      .sl3 > .card { --zt: 1.5 }
+      .sl6 > .card { --zt: 1.5 }
+      .sl8 > .card { --zt: 1.2 }
+
+      /* Recuadros ajustados al contenido (sin el cuadrado vacío) */
+      .sl4 > .card, .sl5 > .card, .sl7 > .card {
+        --zt: 1.5;
+        width: auto;
+        aspect-ratio: auto;
+        padding: 34px 36px
+      }
+
+      /* 4: no tapar la trampa ni la vista de la cámara */
+      .sl4 > .card { max-width: 617px }
+      section.sl4 { align-items: flex-start; padding-top: 14vh }
+
+      /* 5: no tapar la trampa (la tabla se acomoda en dos líneas) */
+      section.sl5 { padding-right: 4.5vw }
+      .sl5 > .card { max-width: 590px }
+      .sl5 table { min-width: 0 }
+      .sl5 td.wr:not(:last-child) { white-space: nowrap }
+
+      /* 9: ajustado al contenido, cuadrado y al doble */
+      .sl9 > .card {
+        --zt: 2;
+        width: auto;
+        max-width: none;
+        aspect-ratio: 1;
+        padding: 34px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center
+      }
+    }
   </style>
 </head>
 
@@ -1139,7 +1182,7 @@
     </div>
   </section>
 
-  <section class="right s3-mobile">
+  <section class="right s3-mobile sl3">
     <div class="card"><span class="tag">El cuello de botella</span>
       <h2>Proyecto Wolbachia</h2>
       <p>Toca cada punto para ver por qué frena la masificación.</p>
@@ -1163,7 +1206,7 @@
     </div>
   </section>
 
-  <section class="tall">
+  <section class="tall sl4">
     <div class="card wide large"><span class="tag">La solución</span>
       <h2>Una trampa que ve, captura y clasifica.</h2>
       <p>Resultados rápidos y precisos. Explora el prototipo por partes:</p>
@@ -1196,7 +1239,7 @@
     </div>
   </section>
 
-  <section class="right tall t5">
+  <section class="right tall t5 sl5">
     <div class="card wide large"><span class="tag">Comparativa</span>
       <h2>¿Qué nos diferencia?</h2>
       <div class="tw">
@@ -1234,7 +1277,7 @@
     </div>
   </section>
 
-  <section>
+  <section class="sl6">
     <div class="card"><span class="tag">Evidencia</span>
       <h2>La evidencia que habla por sí misma</h2>
       <p>Validación del prototipo en semicampo y campo.</p>
@@ -1249,7 +1292,7 @@
     </div>
   </section>
 
-  <section class="right">
+  <section class="right sl7">
     <div class="card large"><span class="tag">Impacto</span>
       <h2>Impacto de la trampa inteligente</h2>
       <div class="tabs"><button class="on">Salud pública</button><button>Económico</button><button>Operativo y
@@ -1277,7 +1320,7 @@
     </div>
   </section>
 
-  <section>
+  <section class="sl8">
     <div class="card wide"><span class="tag">Equipo e inversión</span>
       <h2>El equipo que puede llevarlo al mercado</h2>
       <div class="team">
@@ -1315,7 +1358,7 @@
     </div>
   </section>
 
-  <section class="center">
+  <section class="center sl9">
     <div class="card large"><span class="tag">Próximos productos</span>
       <h2>Lo que viene</h2>
       <div class="list" style="text-align:left">
@@ -1637,6 +1680,8 @@
     const tallCards = [...document.querySelectorAll('section.tall .card')];
     function placeCards() { const m = innerWidth < 700; tallCards.forEach(c => { c.style.top = m ? Math.max(60, innerHeight - c.offsetHeight - 14) + 'px' : '' }) }
     placeCards(); addEventListener('resize', placeCards);
+    // Escala de las tarjetas para proyeccion (referencia 1920x1080)
+    const setVS = () => document.documentElement.style.setProperty('--vs', Math.min(innerWidth / 1920, innerHeight / 1080).toFixed(3)); setVS(); addEventListener('resize', setVS);
     if (window.ResizeObserver) { const ro = new ResizeObserver(placeCards); tallCards.forEach(c => ro.observe(c)) }
     // ---------- Aparición de los textos ----------
     const NAMES = ['Portada', 'El problema', 'El cuello de botella', 'La solución', '¿Qué nos diferencia?', 'La evidencia', 'Impacto', 'Equipo e inversión', 'Próximos productos'];
