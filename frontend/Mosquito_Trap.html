@@ -135,8 +135,8 @@
     }
 
     .card {
-      max-width: 380px;
-      padding: 24px 26px;
+      max-width: 560px;
+      padding: 28px 30px;
       border-radius: 16px;
       background: var(--card);
       backdrop-filter: blur(8px);
@@ -215,11 +215,16 @@
     }
 
     .card {
-      max-width: 520px
+      max-width: 560px
     }
 
     .card.wide {
       max-width: 640px
+    }
+
+    .card.large {
+      max-width: 760px;
+      padding: 34px 36px
     }
 
     h1 {
@@ -565,6 +570,11 @@
       .card.wide,
       .card {
         max-width: none
+      }
+
+      .card.large {
+        max-width: none;
+        padding: 30px 26px
       }
 
       .team {
@@ -1150,7 +1160,7 @@
   </section>
 
   <section class="tall">
-    <div class="card wide"><span class="tag">La solución</span>
+    <div class="card wide large"><span class="tag">La solución</span>
       <h2>Una trampa que ve, captura y clasifica.</h2>
       <p>Resultados rápidos y precisos. Explora el prototipo por partes:</p>
       <div class="tabs"><button
@@ -1183,7 +1193,7 @@
   </section>
 
   <section class="right tall t5">
-    <div class="card wide"><span class="tag">Comparativa</span>
+    <div class="card wide large"><span class="tag">Comparativa</span>
       <h2>¿Qué nos diferencia?</h2>
       <div class="tw">
         <table>
@@ -1236,7 +1246,7 @@
   </section>
 
   <section class="right">
-    <div class="card"><span class="tag">Impacto</span>
+    <div class="card large"><span class="tag">Impacto</span>
       <h2>Impacto de la trampa inteligente</h2>
       <div class="tabs"><button class="on">Salud pública</button><button>Económico</button><button>Operativo y
           datos</button></div>
@@ -1302,7 +1312,7 @@
   </section>
 
   <section class="center">
-    <div class="card"><span class="tag">Próximos productos</span>
+    <div class="card large"><span class="tag">Próximos productos</span>
       <h2>Lo que viene</h2>
       <div class="list" style="text-align:left">
         <div class="item"><i>●</i><b>Expansión multi-especie</b></div>
