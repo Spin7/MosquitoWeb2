@@ -135,8 +135,8 @@
     }
 
     .card {
-      max-width: 560px;
-      padding: 28px 30px;
+      max-width: 640px;
+      padding: 34px 36px;
       border-radius: 16px;
       background: var(--card);
       backdrop-filter: blur(8px);
@@ -215,16 +215,18 @@
     }
 
     .card {
-      max-width: 560px
-    }
-
-    .card.wide {
       max-width: 640px
     }
 
+    .card.wide {
+      max-width: 760px
+    }
+
     .card.large {
-      max-width: 760px;
-      padding: 34px 36px
+      width: min(1000px, 84vw);
+      max-width: 1000px;
+      min-height: 380px;
+      padding: 48px 52px
     }
 
     h1 {
@@ -573,8 +575,10 @@
       }
 
       .card.large {
+        width: 100%;
         max-width: none;
-        padding: 30px 26px
+        min-height: 320px;
+        padding: 38px 30px
       }
 
       .team {
