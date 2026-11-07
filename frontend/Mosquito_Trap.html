@@ -222,11 +222,171 @@
       max-width: 760px
     }
 
-    .card.large {
-      width: min(760px, 84vw);
-      max-width: 760px;
-      aspect-ratio: 1;
-      padding: 48px 52px
+    .card.scale-15,
+    .card.fit-15,
+    .card.square-15 {
+      padding: 54px;
+      font-size: 1.5rem
+    }
+
+    .card.scale-15,
+    .card.square-15 {
+      width: min(960px, 84vw);
+      max-width: 960px
+    }
+
+    .card.square-15 {
+      aspect-ratio: 1
+    }
+
+    .card.fit-15 {
+      width: min(1140px, 84vw);
+      max-width: 1140px
+    }
+
+    .card.scale-15 h2,
+    .card.fit-15 h2,
+    .card.square-15 h2 {
+      font-size: clamp(1.875rem, 7.5vw, 2.55rem)
+    }
+
+    .card.scale-15 h3,
+    .card.fit-15 h3,
+    .card.square-15 h3 {
+      font-size: 1.65rem
+    }
+
+    .card.scale-15 .tag,
+    .card.fit-15 .tag,
+    .card.square-15 .tag {
+      font-size: 1.2rem
+    }
+
+    .card.scale-15 p,
+    .card.fit-15 p,
+    .card.square-15 p,
+    .card.scale-15 .item,
+    .card.fit-15 .item,
+    .card.square-15 .item,
+    .card.scale-15 .pn ul,
+    .card.fit-15 .pn ul,
+    .card.square-15 .pn ul {
+      font-size: 1.5rem
+    }
+
+    .card.scale-15 .item .d,
+    .card.fit-15 .item .d,
+    .card.square-15 .item .d {
+      font-size: 1.275rem
+    }
+
+    .card.scale-15 .tabs button,
+    .card.fit-15 .tabs button,
+    .card.square-15 .tabs button {
+      font-size: 1.275rem;
+      padding: 12px 21px
+    }
+
+    .card.scale-15 .list,
+    .card.fit-15 .list,
+    .card.square-15 .list {
+      gap: 15px
+    }
+
+    .card.scale-15 table,
+    .card.fit-15 table {
+      font-size: 1.275rem
+    }
+
+    .card.scale-15 th,
+    .card.fit-15 th {
+      font-size: 1.08rem;
+      padding: 12px
+    }
+
+    .card.scale-15 td,
+    .card.fit-15 td {
+      padding: 15px 12px
+    }
+
+    .card.scale-15 .stat,
+    .card.fit-15 .stat {
+      padding: 21px
+    }
+
+    .card.scale-15 .stat b,
+    .card.fit-15 .stat b {
+      font-size: 3rem
+    }
+
+    .card.scale-15 .stat span,
+    .card.fit-15 .stat span {
+      font-size: 1.23rem
+    }
+
+    .card.scale-15 .tabs,
+    .card.fit-15 .tabs {
+      gap: 12px
+    }
+
+    .card.scale-12 {
+      width: min(912px, 84vw);
+      max-width: 912px;
+      padding: 41px;
+      font-size: 1.2rem
+    }
+
+    .card.scale-12 h2 {
+      font-size: clamp(1.5rem, 6vw, 2.04rem)
+    }
+
+    .card.scale-12 h3,
+    .card.scale-12 .item,
+    .card.scale-12 .pn ul {
+      font-size: 1.2rem
+    }
+
+    .card.scale-12 .tag {
+      font-size: .96rem
+    }
+
+    .card.scale-12 .tabs button {
+      font-size: 1.02rem;
+      padding: 9.6px 16.8px
+    }
+
+    .card.scale-12 .mem {
+      font-size: .984rem
+    }
+
+    .card.scale-12 .mem small {
+      font-size: .864rem
+    }
+
+    .card.square-2 {
+      width: min(1520px, 84vw, 90vh);
+      height: min(1520px, 84vw, 90vh);
+      max-width: none;
+      padding: 72px;
+      font-size: 2rem
+    }
+
+    .card.square-2 h2 {
+      font-size: clamp(2.5rem, 10vw, 3.4rem)
+    }
+
+    .card.square-2 .tag {
+      font-size: 1.6rem
+    }
+
+    .card.square-2 .item {
+      gap: 24px;
+      padding: 24px 28px;
+      font-size: 2rem
+    }
+
+    .card.square-2 .list {
+      gap: 20px
     }
 
     h1 {
@@ -574,12 +734,19 @@
         max-width: none
       }
 
-      .card.large {
-        width: 100%;
+      .card.scale-15,
+      .card.fit-15,
+      .card.square-15,
+      .card.scale-12 {
         width: 100%;
         max-width: none;
-        min-height: 320px;
-        padding: 38px 30px
+        padding: 32px 26px
+      }
+
+      .card.square-2 {
+        width: min(84vw, 90vh);
+        height: min(84vw, 90vh);
+        padding: 8vw
       }
 
       .team {
@@ -1141,7 +1308,7 @@
   </section>
 
   <section class="right s3-mobile">
-    <div class="card"><span class="tag">El cuello de botella</span>
+    <div class="card square-15"><span class="tag">El cuello de botella</span>
       <h2>Proyecto Wolbachia</h2>
       <p>Toca cada punto para ver por qué frena la masificación.</p>
       <div class="list">
@@ -1165,7 +1332,7 @@
   </section>
 
   <section class="tall">
-    <div class="card wide large"><span class="tag">La solución</span>
+    <div class="card fit-15"><span class="tag">La solución</span>
       <h2>Una trampa que ve, captura y clasifica.</h2>
       <p>Resultados rápidos y precisos. Explora el prototipo por partes:</p>
       <div class="tabs"><button
@@ -1198,7 +1365,7 @@
   </section>
 
   <section class="right tall t5">
-    <div class="card wide large"><span class="tag">Comparativa</span>
+    <div class="card fit-15"><span class="tag">Comparativa</span>
       <h2>¿Qué nos diferencia?</h2>
       <div class="tw">
         <table>
@@ -1236,7 +1403,7 @@
   </section>
 
   <section>
-    <div class="card"><span class="tag">Evidencia</span>
+    <div class="card scale-15"><span class="tag">Evidencia</span>
       <h2>La evidencia que habla por sí misma</h2>
       <p>Validación del prototipo en semicampo y campo.</p>
       <div class="tabs" id="ev"><button class="on" data-a="93.75" data-b="Semicampo" data-c="21"
@@ -1251,7 +1418,7 @@
   </section>
 
   <section class="right">
-    <div class="card large"><span class="tag">Impacto</span>
+    <div class="card fit-15"><span class="tag">Impacto</span>
       <h2>Impacto de la trampa inteligente</h2>
       <div class="tabs"><button class="on">Salud pública</button><button>Económico</button><button>Operativo y
           datos</button></div>
@@ -1279,7 +1446,7 @@
   </section>
 
   <section>
-    <div class="card wide"><span class="tag">Equipo e inversión</span>
+    <div class="card wide scale-12"><span class="tag">Equipo e inversión</span>
       <h2>El equipo que puede llevarlo al mercado</h2>
       <div class="team">
         <div class="mem"><img src="static/members/Leila.jpg" alt="Leila Gauna">Leila Gauna<small>Ing. Mecatrónica</small></div>
@@ -1317,7 +1484,7 @@
   </section>
 
   <section class="center">
-    <div class="card large"><span class="tag">Próximos productos</span>
+    <div class="card square-2"><span class="tag">Próximos productos</span>
       <h2>Lo que viene</h2>
       <div class="list" style="text-align:left">
         <div class="item"><i>●</i><b>Expansión multi-especie</b></div>
