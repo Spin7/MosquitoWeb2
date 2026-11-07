@@ -223,10 +223,62 @@
     }
 
     .card.large {
-      width: min(1000px, 84vw);
-      max-width: 1000px;
-      min-height: 380px;
-      padding: 48px 52px
+      width: min(760px, 84vw);
+      max-width: 760px;
+      aspect-ratio: 1;
+      padding: 44px;
+      font-size: 1.2rem;
+      background: rgba(255, 255, 255, .62);
+      backdrop-filter: blur(2px)
+    }
+
+    .card.large h2 {
+      font-size: clamp(1.8rem, 3vw, 2.4rem)
+    }
+
+    .card.large h3 {
+      font-size: 1.5rem
+    }
+
+    .card.large .tag {
+      font-size: 1rem
+    }
+
+    .card.large p,
+    .card.large .item,
+    .card.large .pn ul {
+      font-size: 1.2rem
+    }
+
+    .card.large .tabs button {
+      font-size: 1rem
+    }
+
+    .card.large table {
+      font-size: 1rem
+    }
+
+    .card.large th {
+      font-size: .85rem
+    }
+
+    .card.large .mem {
+      font-size: 1rem
+    }
+
+    .card.large .mem small {
+      font-size: .85rem
+    }
+
+    html:root.d .card.large,
+    :root[data-theme="dark"] .card.large {
+      background: rgba(15, 42, 46, .66)
+    }
+
+    @media (prefers-color-scheme:dark) {
+      :root:not([data-theme="light"]) .card.large {
+        background: rgba(15, 42, 46, .66)
+      }
     }
 
     h1 {
@@ -577,8 +629,8 @@
       .card.large {
         width: 100%;
         max-width: none;
-        min-height: 320px;
-        padding: 38px 30px
+        aspect-ratio: auto;
+        padding: 32px 26px
       }
 
       .team {
